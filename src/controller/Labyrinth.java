@@ -40,7 +40,7 @@ public class Labyrinth {
 
                 // Create controller and initialize JFrame.
                 Controller controller = new Controller(world);
-                controller.setTitle("Square Move Practice");
+                controller.setTitle("Labyrinth Game");
                 controller.setResizable(false);
                 controller.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 controller.getContentPane().add(gview);
