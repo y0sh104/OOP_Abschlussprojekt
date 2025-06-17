@@ -11,3 +11,14 @@ look at java.awt.Graphics documentation what other things can be drawn/created (
 how can we build walls and prevent collision?
 i think we should have a static map and not a randomly generated, no need to overdo it.
 walls as lines in console view and as rectangles in graphicsview?! i think we should resize the game board for sure @Labyrinth.main.new Runnable.run heigth / width, 10x10 is small and we can aslo scale up the window size of the graphics view @Labyrinth....run fieldDimension in the fieldDimensions constructor
+
+
+
+
+
+
+
+
+
+TODO wie verhindern ,ehrere gegner auf einem feld
+rn enemies move too much?! try moving diagonal!!!

@@ -42,7 +42,7 @@ public class Controller extends JFrame implements KeyListener, ActionListener, M
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
+		// 
 	}
 
 	/////////////////// Key Events ////////////////////////////////
@@ -53,50 +53,36 @@ public class Controller extends JFrame implements KeyListener, ActionListener, M
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_UP:
 			world.movePlayer(Direction.UP);
-			/*	boolean wall test = true
-			 * for every coordinate pair in list_wallCoordinates
-			 * 	if list_wallcoordinates[i] == player coordinates
-			 * 		wall test = false
-			 * 	if wall test = true
-			 * 	world.movePLayer(Direction.UP)
-			 * 
-			 * 	for every enemy in arraylist enemy
-			 * 		if enemy_co_x < player_co_x
-			 * 			enemy_co_x += 1
-			 * 		else ememy_co_x -= 1
-			 * 		if enemy_co_y < player_co_y
-			 * 			enemy_co_y += 1
-			 * 		else ememy_co_y -= 1
-			 * 
-			 * 	if enemy_coordinates = player coordinates
-			 * 		stop game //(mby home screen)
-			 */
+			world.moveEnemies();
 			break;
 
 		case KeyEvent.VK_DOWN:
 			world.movePlayer(Direction.DOWN);
+			world.moveEnemies();
 			break;
 
 		case KeyEvent.VK_LEFT:
 			world.movePlayer(Direction.LEFT);
+			world.moveEnemies();
 			break;
 
 		case KeyEvent.VK_RIGHT:
 			world.movePlayer(Direction.RIGHT);
+			world.moveEnemies();
 			break;
 		}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
+		// 
 	}
 
 	/////////////////// Action Events ////////////////////////////////
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+		// 
 		
 	}
 	
@@ -104,31 +90,31 @@ public class Controller extends JFrame implements KeyListener, ActionListener, M
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
+		// 
 		
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
+		// 
 		
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
+		// 
 		
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
+		// 
 		
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
+		// 
 		
 	}
 

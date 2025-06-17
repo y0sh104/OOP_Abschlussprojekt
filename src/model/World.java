@@ -22,6 +22,8 @@ public class World {
 
 	/** Set of views registered to be notified of world updates. */
 	private final ArrayList<View> views = new ArrayList<>();
+	private ArrayList<Enemy> enemyList = new ArrayList<>();
+
 
 	/**
 	 * Creates a new world with the given size.t
@@ -71,8 +73,6 @@ public class World {
 		playerX = Math.max(0, playerX);
 		playerX = Math.min(getWidth() - 1, playerX);
 		this.playerX = playerX;
-		
-		updateViews();
 	}
 
 	/**
@@ -93,8 +93,6 @@ public class World {
 		playerY = Math.max(0, playerY);
 		playerY = Math.min(getHeight() - 1, playerY);
 		this.playerY = playerY;
-		
-		updateViews();
 	}
 
 	///////////////////////////////////////////////////////////////////////////
@@ -110,6 +108,56 @@ public class World {
 		// every direction
 		setPlayerX(getPlayerX() + direction.deltaX);
 		setPlayerY(getPlayerY() + direction.deltaY);
+	}
+
+	///////////////////////////////////////////////////////////////////////////
+	// Enemy Management
+
+	public void registerEnemy(Enemy enemy) {
+		enemyList.add(enemy);
+	}
+
+	/**
+	 * Moves the enemies in relation to the players position.
+	 *
+	 */
+	public void moveEnemies() {
+
+		for (int enemy = 0; enemy < enemyList.size(); enemy++) {
+			if (enemyList.get(enemy).getEnemyX() == getPlayerX() && enemyList.get(enemy).getEnemyY() == getPlayerY()) {
+				updateViews();
+				return;
+			}
+		}
+
+		for (int enemy = 0; enemy < enemyList.size(); enemy++) {
+			if (enemyList.get(enemy).getEnemyX() < getPlayerX()) {
+				enemyList.get(enemy).setEnemyX(enemyList.get(enemy).getEnemyX() + 1);
+			}
+			else if (enemyList.get(enemy).getEnemyX() > getPlayerX()) {
+				enemyList.get(enemy).setEnemyX(enemyList.get(enemy).getEnemyX() -1);
+			}
+			if (enemyList.get(enemy).getEnemyY() < getPlayerY()) {
+				enemyList.get(enemy).setEnemyY(enemyList.get(enemy).getEnemyY() + 1);
+			}
+			else if (enemyList.get(enemy).getEnemyY() > getPlayerY()) {
+				enemyList.get(enemy).setEnemyY(enemyList.get(enemy).getEnemyY() -1);
+			}
+		}
+
+		updateViews();
+	}
+
+	public ArrayList<Enemy> getEnemyList() {
+		return enemyList;
+	}
+
+	public void createEnemies(int difficulty) {
+		if (difficulty == 1) {
+			registerEnemy(new Enemy(3, 5, this));
+			registerEnemy(new Enemy(7, 12, this));
+			registerEnemy(new Enemy(5, 2, this));
+		}
 	}
 
 	///////////////////////////////////////////////////////////////////////////
@@ -129,7 +177,7 @@ public class World {
 	/**
 	 * Updates all views by calling their {@link View#update(World)} methods.
 	 */
-	private void updateViews() {
+	void updateViews() {
 		for (int i = 0; i < views.size(); i++) {
 			views.get(i).update(this);
 		}
