@@ -177,7 +177,7 @@ public class World {
 	/**
 	 * Updates all views by calling their {@link View#update(World)} methods.
 	 */
-	void updateViews() {
+	private void updateViews() {
 		for (int i = 0; i < views.size(); i++) {
 			views.get(i).update(this);
 		}
