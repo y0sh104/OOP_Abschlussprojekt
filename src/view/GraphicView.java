@@ -7,6 +7,7 @@ import java.awt.Rectangle;
 
 import javax.swing.JPanel;
 
+import model.FieldType;
 import model.World;
 
 /**
@@ -33,22 +34,12 @@ public class GraphicView extends JPanel implements View {
 	/** The rectangle we're moving. */
 	private final Rectangle player = new Rectangle(1, 1);
 
-	/**
-	 * Creates a new instance.
-	 */
-	@Override
-	public void paint(Graphics g) {
-		// Paint background
-		g.setColor(Color.RED);
-		g.fillRect(bg.x, bg.y, bg.width, bg.height);
-		// Paint player
-		g.setColor(Color.BLACK);
-		g.fillRect(player.x, player.y, player.width, player.height);
-	}
 
 	@Override
 	public void update(World world) {
-
+		// World-Referenz speichern für paintComponent
+		this.currentWorld = world;
+		
 		// Update players size and location
 		player.setSize(fieldDimension);
 		player.setLocation(
@@ -56,6 +47,71 @@ public class GraphicView extends JPanel implements View {
 			(int) (world.getPlayerY() * fieldDimension.height)
 		);
 		repaint();
+	}
+	
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		
+		// Hintergrund weiß
+		g.setColor(Color.WHITE);
+		g.fillRect(0, 0, getWidth(), getHeight());
+		
+		// World-Referenz für das Zeichnen benötigt
+		// Diese wird temporär gespeichert
+		if (currentWorld != null) {
+			drawLabyrinth(g, currentWorld);
+			drawPlayer(g);
+		}
+	}
+	
+	private World currentWorld;
+	
+	private void drawLabyrinth(Graphics g, World world) {
+		for (int y = 0; y < world.getHeight(); y++) {
+			for (int x = 0; x < world.getWidth(); x++) {
+				FieldType fieldType = world.getFieldType(x, y);
+				
+				int drawX = x * fieldDimension.width;
+				int drawY = y * fieldDimension.height;
+				
+				// Farbe je nach Feldtyp setzen
+				switch (fieldType) {
+					case WALL:
+						g.setColor(Color.BLACK);
+						break;
+					case PATH:
+						g.setColor(Color.LIGHT_GRAY);
+						break;
+					case START:
+						g.setColor(Color.GREEN);
+						break;
+					case GOAL:
+						g.setColor(Color.ORANGE);
+						break;
+					default:
+						g.setColor(Color.WHITE);
+				}
+				
+				g.fillRect(drawX, drawY, fieldDimension.width, fieldDimension.height);
+				
+				// Schwarzer Rand um jedes Feld
+				g.setColor(Color.DARK_GRAY);
+				g.drawRect(drawX, drawY, fieldDimension.width, fieldDimension.height);
+			}
+		}
+	}
+	
+	private void drawPlayer(Graphics g) {
+		// Spieler als blauer Kreis
+		g.setColor(Color.BLUE);
+		int margin = 3;
+		g.fillOval(
+			player.x + margin, 
+			player.y + margin, 
+			player.width - 2*margin, 
+			player.height - 2*margin
+		);
 	}
 
 }

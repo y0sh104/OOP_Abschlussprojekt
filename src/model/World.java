@@ -19,17 +19,30 @@ public class World {
 	private int playerX = 0;
 	/** The player's y position in the world. */
 	private int playerY = 0;
+	
+	/** Das Labyrinth als 2D-Array */
+	private FieldType[][] labyrinth;
+	/** Start-Position im Labyrinth */
+	private Position startPosition;
+	/** Ziel-Position im Labyrinth */
+	private Position goalPosition;
+	/** Generator für Labyrinthe */
+	private final LabyrinthGenerator generator;
 
 	/** Set of views registered to be notified of world updates. */
 	private final ArrayList<View> views = new ArrayList<>();
 
 	/**
-	 * Creates a new world with the given size.t
+	 * Creates a new world with the given size.
 	 */
 	public World(int width, int height) {
 		// Normally, we would check the arguments for proper values
 		this.width = width;
 		this.height = height;
+		this.generator = new LabyrinthGenerator();
+		
+		// Labyrinth generieren
+		generateNewLabyrinth();
 	}
 
 	///////////////////////////////////////////////////////////////////////////
@@ -68,10 +81,18 @@ public class World {
 	 * @param playerX the player's x position.
 	 */
 	public void setPlayerX(int playerX) {
-		playerX = Math.max(0, playerX);
-		playerX = Math.min(getWidth() - 1, playerX);
-		this.playerX = playerX;
+		// Grenzen prüfen
+		if (playerX < 0 || playerX >= getWidth()) {
+			return;
+		}
 		
+		// Gegen die Wand gelaufen
+		if (labyrinth[this.playerY][playerX] != null && 
+			!labyrinth[this.playerY][playerX].isWalkable()) {
+			return;
+		}
+		
+		this.playerX = playerX;
 		updateViews();
 	}
 
@@ -90,10 +111,18 @@ public class World {
 	 * @param playerY the player's y position.
 	 */
 	public void setPlayerY(int playerY) {
-		playerY = Math.max(0, playerY);
-		playerY = Math.min(getHeight() - 1, playerY);
-		this.playerY = playerY;
+		// Kenne dein Grenzen...
+		if (playerY < 0 || playerY >= getHeight()) {
+			return;
+		}
 		
+		// ... und lerne die Wände kennen.
+		if (labyrinth[playerY][this.playerX] != null && 
+			!labyrinth[playerY][this.playerX].isWalkable()) {
+			return;
+		}
+		
+		this.playerY = playerY;
 		updateViews();
 	}
 
@@ -133,6 +162,82 @@ public class World {
 		for (int i = 0; i < views.size(); i++) {
 			views.get(i).update(this);
 		}
+	}
+	
+	///////////////////////////////////////////////////////////////////////////
+	// Labyrinth Management
+	
+	/**
+	 * Rufe das wirklich dumme Labyrinth auf.
+	 */
+	public void generateNewLabyrinth() {
+		// Einfaches Labyrinth für den Anfang
+		this.labyrinth = generator.generateSimpleLabyrinth(width, height);
+		
+		// Start- und Zielpositionen finden
+		findStartAndGoalPositions();
+		
+		// Spieler auf Startposition setzen
+		if (startPosition != null) {
+			this.playerX = startPosition.getX();
+			this.playerY = startPosition.getY();
+		}
+		
+		updateViews();
+	}
+	
+	/**
+	 * Findet Start- und Zielpositionen im Labyrinth.
+	 */
+	private void findStartAndGoalPositions() {
+		for (int y = 0; y < height; y++) {
+			for (int x = 0; x < width; x++) {
+				if (labyrinth[y][x] == FieldType.START) {
+					startPosition = new Position(x, y);
+				} else if (labyrinth[y][x] == FieldType.GOAL) {
+					goalPosition = new Position(x, y);
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Gibt den Feldtyp an der angegebenen Position zurück.
+	 * 
+	 * @param x x-Koordinate
+	 * @param y y-Koordinate
+	 * @return Feldtyp oder null wenn außerhalb der Grenzen
+	 */
+	public FieldType getFieldType(int x, int y) {
+		if (x < 0 || x >= width || y < 0 || y >= height) {
+			return null;
+		}
+		return labyrinth[y][x];
+	}
+	
+	/**
+	 * Prüft ob der Spieler das Ziel erreicht hat.
+	 * 
+	 * @return true wenn Spieler am Ziel ist
+	 */
+	public boolean isPlayerAtGoal() {
+		return goalPosition != null && 
+			   playerX == goalPosition.getX() && 
+			   playerY == goalPosition.getY();
+	}
+	
+	/**
+	 * @return Start-Position
+	 */
+	public Position getStartPosition() {
+		return startPosition;
+	}
+	
+	/**
+	 * @return Ziel-Position
+	 */
+	public Position getGoalPosition() {
+		return goalPosition;
 	}
 
 }
