@@ -19,8 +19,8 @@ public class Labyrinth {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 // Dimension of the game board (10x10).
-                int width = 15;
-                int height = 15;
+                int width = 10;
+                int height = 10;
                 // Create a new game world.
                 World world = new World(width, height);
 
@@ -58,6 +58,8 @@ public class Labyrinth {
                 controller.setMinimumSize(size);
                 controller.setVisible(true);
 
+                world.createHorizontalWalls();
+                world.createVerticalWalls();
                 world.createEnemies(1);
             }
         });

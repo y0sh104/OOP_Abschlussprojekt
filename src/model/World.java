@@ -20,9 +20,13 @@ public class World {
 	/** The player's y position in the world. */
 	private int playerY = 0;
 
+	private boolean blockArrowInput;
+
 	/** Set of views registered to be notified of world updates. */
 	private final ArrayList<View> views = new ArrayList<>();
 	private ArrayList<Enemy> enemyList = new ArrayList<>();
+	private ArrayList<Wall> horizontalWallList = new ArrayList<>();
+	private ArrayList<Wall> verticalWallList = new ArrayList<>();
 
 
 	/**
@@ -36,6 +40,15 @@ public class World {
 
 	///////////////////////////////////////////////////////////////////////////
 	// Getters and Setters
+
+	public boolean getBlock() {
+		for (int enemy = 0; enemy < enemyList.size(); enemy++) {
+			if (enemyList.get(enemy).getEnemyX() == getPlayerX() && enemyList.get(enemy).getEnemyY() == getPlayerY()) {
+				return blockArrowInput = true;
+			}
+		}
+		return blockArrowInput = false;
+	}
 
 	/**
 	 * Returns the width of the world.
@@ -113,7 +126,11 @@ public class World {
 	///////////////////////////////////////////////////////////////////////////
 	// Enemy Management
 
-	public void registerEnemy(Enemy enemy) {
+	/**
+	 * Adds an enemy to the enemy list.
+	 * @param enemy the enemy to add to the list
+	 */
+	 public void registerEnemy(Enemy enemy) {
 		enemyList.add(enemy);
 	}
 
@@ -148,16 +165,74 @@ public class World {
 		updateViews();
 	}
 
+	/**
+	 * Gets the list of enemies.
+	 * @return the enemy list
+	 */
 	public ArrayList<Enemy> getEnemyList() {
 		return enemyList;
 	}
 
+	/**
+	 * Creates the enemies. Dependend on the difficulty seleccted in the GUI.
+	 * @param difficulty determines how many enemies are created
+	 */
 	public void createEnemies(int difficulty) {
 		if (difficulty == 1) {
 			registerEnemy(new Enemy(3, 5, this));
-			registerEnemy(new Enemy(7, 12, this));
+			registerEnemy(new Enemy(7, 9, this));
 			registerEnemy(new Enemy(5, 2, this));
 		}
+		updateViews();
+	}
+
+	///////////////////////////////////////////////////////////////////////////
+	// Wall Management
+
+	/**
+	 * Adds an wall to the enemy list.
+	 * @param wall the wall to add to the list
+	 */
+	 public void registerHorizontalWall(Wall wall) {
+		horizontalWallList.add(wall);
+	}
+
+	/**
+	 * Adds an wall to the enemy list.
+	 * @param wall the wall to add to the list
+	 */
+	 public void registerVerticalWall(Wall wall) {
+		verticalWallList.add(wall);
+	}
+
+	/**
+	 * Gets the list of walls.
+	 * @return returns the wall list
+	 */
+	public ArrayList<Wall> getHorizontalWallList() {
+		return horizontalWallList;
+	}
+
+		/**
+	 * Gets the list of walls.
+	 * @return returns the wall list
+	 */
+	public ArrayList<Wall> getVerticalWallList() {
+		return verticalWallList;
+	}
+
+	public void createHorizontalWalls() {
+		registerHorizontalWall(new Wall(2, 3));
+		registerHorizontalWall(new Wall(5, 4));
+		registerHorizontalWall(new Wall(6, 4));
+		registerHorizontalWall(new Wall(2, 3));
+		registerHorizontalWall(new Wall(8, 9));
+		registerHorizontalWall(new Wall(4, 7));
+	}
+
+	public void createVerticalWalls() {
+		registerVerticalWall(new Wall(7, 8));
+		registerVerticalWall(new Wall(6, 6));
 	}
 
 	///////////////////////////////////////////////////////////////////////////

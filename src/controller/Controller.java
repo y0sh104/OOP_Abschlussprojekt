@@ -52,24 +52,32 @@ public class Controller extends JFrame implements KeyListener, ActionListener, M
 		// Check if we need to do something. Tells the world to move the player.
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_UP:
-			world.movePlayer(Direction.UP);
-			world.moveEnemies();
-			break;
-
+			if (!world.getBlock()) {
+				world.movePlayer(Direction.UP);
+				world.moveEnemies();
+				break;
+			}
+			
 		case KeyEvent.VK_DOWN:
-			world.movePlayer(Direction.DOWN);
-			world.moveEnemies();
-			break;
+			if (!world.getBlock()) {
+				world.movePlayer(Direction.DOWN);
+				world.moveEnemies();
+				break;
+			}
 
 		case KeyEvent.VK_LEFT:
-			world.movePlayer(Direction.LEFT);
-			world.moveEnemies();
-			break;
+			if (!world.getBlock()) {
+				world.movePlayer(Direction.LEFT);
+				world.moveEnemies();
+				break;
+			}
 
 		case KeyEvent.VK_RIGHT:
-			world.movePlayer(Direction.RIGHT);
-			world.moveEnemies();
-			break;
+			if (!world.getBlock()) {
+				world.movePlayer(Direction.RIGHT);
+				world.moveEnemies();
+				break;
+			}
 		}
 	}
 
