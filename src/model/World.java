@@ -42,6 +42,7 @@ public class World {
 	///////////////////////////////////////////////////////////////////////////
 	// Getters and Setters
 
+	// this to the controller?
 	public boolean getBlock() {
 		for (int enemy = 0; enemy < enemyList.size(); enemy++) {
 			if (enemyList.get(enemy).getEnemyX() == getPlayerX() && enemyList.get(enemy).getEnemyY() == getPlayerY()) {

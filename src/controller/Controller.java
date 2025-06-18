@@ -8,6 +8,7 @@ import java.awt.event.MouseListener;
 import java.util.List;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import model.Direction;
 import model.World;
@@ -20,6 +21,7 @@ public class Controller extends JFrame implements KeyListener, ActionListener, M
 
 	/** The world that is updated upon every key press. */
 	private World world;
+	private int difficulty = 1;
 	@SuppressWarnings("unused")
 	private List<View> views;
 
@@ -46,6 +48,28 @@ public class Controller extends JFrame implements KeyListener, ActionListener, M
 		// 
 	}
 
+	/////// Difficulty Getter & Setter /////////
+	
+	public int getDifficulty() {
+		return this.difficulty;
+	}
+
+	public void setDifficulty(int difficulty) {
+		this.difficulty = difficulty;
+	}
+
+
+	////////////// Restart //////
+	
+	public void restartGame() {
+		System.out.println("NEW GAME! Difficulty: " + difficulty + "\n");
+		JOptionPane.showMessageDialog(this, "NEW GAME! Difficulty: " + difficulty);
+		world.setPlayerX(0);
+		world.setPlayerY(0);
+		world.getEnemyList().clear();
+		world.createEnemies(difficulty);
+	}
+
 	/////////////////// Key Events ////////////////////////////////
 
 	@Override
@@ -56,29 +80,49 @@ public class Controller extends JFrame implements KeyListener, ActionListener, M
 			if (!world.getBlock()) {
 				world.movePlayer(Direction.UP);
 				world.moveEnemies();
-				break;
 			}
+			break;
 			
 		case KeyEvent.VK_DOWN:
 			if (!world.getBlock()) {
 				world.movePlayer(Direction.DOWN);
 				world.moveEnemies();
-				break;
 			}
+			break;
 
 		case KeyEvent.VK_LEFT:
 			if (!world.getBlock()) {
 				world.movePlayer(Direction.LEFT);
 				world.moveEnemies();
-				break;
 			}
+			break;
 
 		case KeyEvent.VK_RIGHT:
 			if (!world.getBlock()) {
 				world.movePlayer(Direction.RIGHT);
 				world.moveEnemies();
-				break;
 			}
+			break;
+
+		case KeyEvent.VK_N:
+			restartGame();
+			break;
+
+		case KeyEvent.VK_1:
+			setDifficulty(1);
+			restartGame();
+			break;
+
+		case KeyEvent.VK_2:
+			setDifficulty(2);
+			restartGame();
+			break;
+		
+		case KeyEvent.VK_3:
+			setDifficulty(3);
+			restartGame();
+			break;
+		
 		}
 	}
 

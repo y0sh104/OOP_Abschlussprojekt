@@ -23,3 +23,9 @@ walls as lines in console view and as rectangles in graphicsview?! i think we sh
 TODO wie verhindern ,ehrere gegner auf einem feld
 rn enemies move too much?! try moving diagonal!!!
 why do we need break in switch case fuction?
+
+
+Make sure ot understand the modelll
+slides/vdeo
+everything in the right place
+finish up movement restrictions

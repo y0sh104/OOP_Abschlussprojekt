@@ -70,43 +70,7 @@ public class ConsoleView implements View {
 					case 99:
 						System.out.print("C");
 						break;
-
-
-
 				}
-
-				/*
-				// Walls are drawn  in
-				for (int wall = 0; wall < world.getHorizontalWallList().size(); wall++) {
-					if (row == world.getHorizontalWallList().get(wall).getWallY() && col == world.getHorizontalWallList().get(wall).getWallX()) {
-						System.out.print("_");
-					}
-				}
-				for (int wall = 0; wall < world.getVerticalWallList().size(); wall++) {
-					if (row == world.getVerticalWallList().get(wall).getWallY() && col == world.getVerticalWallList().get(wall).getWallX()) {
-						System.out.print("|");
-					}
-				}
-				boolean enemyPos = false;
-				for (int enemy = 0; enemy < world.getEnemyList().size(); enemy++) {
-					if (row == world.getEnemyList().get(enemy).getEnemyY() && col == world.getEnemyList().get(enemy).getEnemyX()) {
-						if (row == playerY && col == playerX) {
-							System.out.print("C");
-							enemyPos = true;
-						} else {
-							System.out.print("^");
-							enemyPos = true;
-						}
-					
-					}
-				}
-				// If the player is here, print #, otherwise print .
-				if (row == playerY && col == playerX && enemyPos == false) {
-					System.out.print("#");
-				} else if (enemyPos == false) {
-					System.out.print(".");
-				}
-				*/
 			}
 
 			// A newline after every row
@@ -117,7 +81,7 @@ public class ConsoleView implements View {
 		System.out.println();
 		for (int enemy = 0; enemy < world.getEnemyList().size(); enemy++) {
 			if (playerY == world.getEnemyList().get(enemy).getEnemyY() && playerX == world.getEnemyList().get(enemy).getEnemyX()) {
-				System.out.println("GAME OVER!!!");
+				System.out.println("GAME OVER!\n");
 			}
 		}
 	}

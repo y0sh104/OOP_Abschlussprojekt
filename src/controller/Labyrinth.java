@@ -62,7 +62,7 @@ public class Labyrinth {
 
                 world.createHorizontalWalls();
                 world.createVerticalWalls();
-                world.createEnemies(1);
+                world.createEnemies(controller.getDifficulty());
             }
         });
     }
