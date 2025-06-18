@@ -3,7 +3,7 @@ package controller;
 import java.awt.Dimension;
 import java.awt.Insets;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 
 import model.World;
 import view.ConsoleView;
@@ -53,6 +53,8 @@ public class Labyrinth {
 
                 int windowX = width * fieldDimensions.width + insets.left + insets.right;
                 int windowY = height * fieldDimensions.height + insets.bottom + insets.top;
+                System.out.println(windowX);
+                System.out.println(windowY);
                 Dimension size = new Dimension(windowX, windowY);
                 controller.setSize(size);
                 controller.setMinimumSize(size);

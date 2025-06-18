@@ -20,6 +20,7 @@ public class World {
 	/** The player's y position in the world. */
 	private int playerY = 0;
 
+	@SuppressWarnings("unused")
 	private boolean blockArrowInput;
 
 	/** Set of views registered to be notified of world updates. */
@@ -148,18 +149,22 @@ public class World {
 		}
 
 		for (int enemy = 0; enemy < enemyList.size(); enemy++) {
-			if (enemyList.get(enemy).getEnemyX() < getPlayerX()) {
+			if (Math.abs(enemyList.get(enemy).getEnemyX() - getPlayerX()) >= Math.abs(enemyList.get(enemy).getEnemyY() - getPlayerY())) {
+				if (enemyList.get(enemy).getEnemyX() < getPlayerX()) {
 				enemyList.get(enemy).setEnemyX(enemyList.get(enemy).getEnemyX() + 1);
-			}
-			else if (enemyList.get(enemy).getEnemyX() > getPlayerX()) {
+				}
+				else if (enemyList.get(enemy).getEnemyX() > getPlayerX()) {
 				enemyList.get(enemy).setEnemyX(enemyList.get(enemy).getEnemyX() -1);
+				}
 			}
-			if (enemyList.get(enemy).getEnemyY() < getPlayerY()) {
+			else {
+				if (enemyList.get(enemy).getEnemyY() < getPlayerY()) {
 				enemyList.get(enemy).setEnemyY(enemyList.get(enemy).getEnemyY() + 1);
-			}
-			else if (enemyList.get(enemy).getEnemyY() > getPlayerY()) {
+				}
+				else if (enemyList.get(enemy).getEnemyY() > getPlayerY()) {
 				enemyList.get(enemy).setEnemyY(enemyList.get(enemy).getEnemyY() -1);
-			}
+				}
+			} 
 		}
 
 		updateViews();
