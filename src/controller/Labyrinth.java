@@ -3,7 +3,7 @@ package controller;
 import java.awt.Dimension;
 import java.awt.Insets;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 
 import model.World;
 import view.ConsoleView;
@@ -25,7 +25,7 @@ public class Labyrinth {
                 World world = new World(width, height);
 
                 // Size of a field in the graphical view.
-                Dimension fieldDimensions = new Dimension(25, 25);
+                Dimension fieldDimensions = new Dimension(50, 50);
                 // Create and register graphical view.
                 GraphicView gview = new GraphicView(
                         width * fieldDimensions.width,
@@ -40,7 +40,7 @@ public class Labyrinth {
 
                 // Create controller and initialize JFrame.
                 Controller controller = new Controller(world);
-                controller.setTitle("Square Move Practice");
+                controller.setTitle("Labyrinth Game");
                 controller.setResizable(false);
                 controller.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 controller.getContentPane().add(gview);
@@ -53,10 +53,15 @@ public class Labyrinth {
 
                 int windowX = width * fieldDimensions.width + insets.left + insets.right;
                 int windowY = height * fieldDimensions.height + insets.bottom + insets.top;
+                System.out.println(windowX);
+                System.out.println(windowY);
                 Dimension size = new Dimension(windowX, windowY);
                 controller.setSize(size);
                 controller.setMinimumSize(size);
                 controller.setVisible(true);
+
+                world.createWalls();
+                world.createEnemies(controller.getDifficulty());
             }
         });
     }
