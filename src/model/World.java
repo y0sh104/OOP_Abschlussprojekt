@@ -26,8 +26,7 @@ public class World {
 	/** Set of views registered to be notified of world updates. */
 	private final ArrayList<View> views = new ArrayList<>();
 	private ArrayList<Enemy> enemyList = new ArrayList<>();
-	private ArrayList<Wall> horizontalWallList = new ArrayList<>();
-	private ArrayList<Wall> verticalWallList = new ArrayList<>();
+	private ArrayList<Wall> wallList = new ArrayList<>();
 
 
 	/**
@@ -50,6 +49,22 @@ public class World {
 			}
 		}
 		return blockArrowInput = false;
+	}
+
+		/**
+	 * Gets the list of enemies.
+	 * @return the enemy list
+	 */
+	public ArrayList<Enemy> getEnemyList() {
+		return enemyList;
+	}
+
+			/**
+	 * Gets the list of walls.
+	 * @return returns the wall list
+	 */
+	public ArrayList<Wall> getWallList() {
+		return wallList;
 	}
 
 	/**
@@ -121,8 +136,16 @@ public class World {
 	public void movePlayer(Direction direction) {	
 		// The direction tells us exactly how much we need to move along
 		// every direction
-		setPlayerX(getPlayerX() + direction.deltaX);
-		setPlayerY(getPlayerY() + direction.deltaY);
+		boolean moveTest = true;
+		for (int wall = 0; wall < wallList.size(); wall++) {
+			if ((getPlayerX() + direction.deltaX) == wallList.get(wall).getWallX() && (getPlayerY() + direction.deltaY) == wallList.get(wall).getWallY()) {
+				moveTest = false;
+			}
+		}
+		if (moveTest) {
+			setPlayerX(getPlayerX() + direction.deltaX);
+			setPlayerY(getPlayerY() + direction.deltaY);
+		}
 	}
 
 	///////////////////////////////////////////////////////////////////////////
@@ -150,33 +173,57 @@ public class World {
 		}
 
 		for (int enemy = 0; enemy < enemyList.size(); enemy++) {
-			if (Math.abs(enemyList.get(enemy).getEnemyX() - getPlayerX()) >= Math.abs(enemyList.get(enemy).getEnemyY() - getPlayerY())) {
+			if (Math.abs(enemyList.get(enemy).getEnemyX() - getPlayerX()) > Math.abs(enemyList.get(enemy).getEnemyY() - getPlayerY())) {
 				if (enemyList.get(enemy).getEnemyX() < getPlayerX()) {
-				enemyList.get(enemy).setEnemyX(enemyList.get(enemy).getEnemyX() + 1);
+					boolean moveTest = true;
+					for (int wall = 0; wall < wallList.size(); wall++) {
+						if ((enemyList.get(enemy).getEnemyX() + 1) == wallList.get(wall).getWallX() && (enemyList.get(enemy).getEnemyY()) == wallList.get(wall).getWallY()) {
+							moveTest = false;
+							}
+					}
+					if (moveTest) {
+						enemyList.get(enemy).setEnemyX(enemyList.get(enemy).getEnemyX() + 1);
+					}
 				}
 				else if (enemyList.get(enemy).getEnemyX() > getPlayerX()) {
-				enemyList.get(enemy).setEnemyX(enemyList.get(enemy).getEnemyX() -1);
+					boolean moveTest = true;
+					for (int wall = 0; wall < wallList.size(); wall++) {
+						if ((enemyList.get(enemy).getEnemyX() - 1) == wallList.get(wall).getWallX() && (enemyList.get(enemy).getEnemyY()) == wallList.get(wall).getWallY()) {
+							moveTest = false;
+							}
+					}
+					if (moveTest) {
+						enemyList.get(enemy).setEnemyX(enemyList.get(enemy).getEnemyX() - 1);
+					}
 				}
 			}
 			else {
 				if (enemyList.get(enemy).getEnemyY() < getPlayerY()) {
-				enemyList.get(enemy).setEnemyY(enemyList.get(enemy).getEnemyY() + 1);
+					boolean moveTest = true;
+					for (int wall = 0; wall < wallList.size(); wall++) {
+						if ((enemyList.get(enemy).getEnemyX()) == wallList.get(wall).getWallX() && (enemyList.get(enemy).getEnemyY() + 1) == wallList.get(wall).getWallY()) {
+							moveTest = false;
+							}
+					}
+					if (moveTest) {
+						enemyList.get(enemy).setEnemyY(enemyList.get(enemy).getEnemyY() + 1);
+					}
 				}
 				else if (enemyList.get(enemy).getEnemyY() > getPlayerY()) {
-				enemyList.get(enemy).setEnemyY(enemyList.get(enemy).getEnemyY() -1);
+					boolean moveTest = true;
+					for (int wall = 0; wall < wallList.size(); wall++) {
+						if ((enemyList.get(enemy).getEnemyX()) == wallList.get(wall).getWallX() && (enemyList.get(enemy).getEnemyY() - 1) == wallList.get(wall).getWallY()) {
+							moveTest = false;
+							}
+					}
+					if (moveTest) {
+						enemyList.get(enemy).setEnemyY(enemyList.get(enemy).getEnemyY() - 1);
+					}
 				}
 			} 
 		}
 
 		updateViews();
-	}
-
-	/**
-	 * Gets the list of enemies.
-	 * @return the enemy list
-	 */
-	public ArrayList<Enemy> getEnemyList() {
-		return enemyList;
 	}
 
 	/**
@@ -199,47 +246,24 @@ public class World {
 	 * Adds an wall to the enemy list.
 	 * @param wall the wall to add to the list
 	 */
-	 public void registerHorizontalWall(Wall wall) {
-		horizontalWallList.add(wall);
+	 public void registerWall(Wall wall) {
+		wallList.add(wall);
 	}
 
-	/**
-	 * Adds an wall to the enemy list.
-	 * @param wall the wall to add to the list
-	 */
-	 public void registerVerticalWall(Wall wall) {
-		verticalWallList.add(wall);
+	public void createWalls() {
+		registerWall(new Wall(1, 1));
+		registerWall(new Wall(2, 3));
+		registerWall(new Wall(5, 4));
+		registerWall(new Wall(6, 4));
+		registerWall(new Wall(2, 3));
+		registerWall(new Wall(8, 9));
+		registerWall(new Wall(4, 7));
+		registerWall(new Wall(7, 8));
+		registerWall(new Wall(6, 6));
+		registerWall(new Wall(3, 6));
+		registerWall(new Wall(7, 2));
 	}
 
-	/**
-	 * Gets the list of walls.
-	 * @return returns the wall list
-	 */
-	public ArrayList<Wall> getHorizontalWallList() {
-		return horizontalWallList;
-	}
-
-		/**
-	 * Gets the list of walls.
-	 * @return returns the wall list
-	 */
-	public ArrayList<Wall> getVerticalWallList() {
-		return verticalWallList;
-	}
-
-	public void createHorizontalWalls() {
-		registerHorizontalWall(new Wall(2, 3));
-		registerHorizontalWall(new Wall(5, 4));
-		registerHorizontalWall(new Wall(6, 4));
-		registerHorizontalWall(new Wall(2, 3));
-		registerHorizontalWall(new Wall(8, 9));
-		registerHorizontalWall(new Wall(4, 7));
-	}
-
-	public void createVerticalWalls() {
-		registerVerticalWall(new Wall(7, 8));
-		registerVerticalWall(new Wall(6, 6));
-	}
 
 	///////////////////////////////////////////////////////////////////////////
 	// View Management

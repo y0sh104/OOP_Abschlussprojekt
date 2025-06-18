@@ -19,14 +19,9 @@ public class ConsoleView implements View {
 			for (int col = 0; col < world.getWidth(); col++) {
 				int toPrint = 0;
 				boolean enemyPos = false;
-				for (int wall = 0; wall < world.getHorizontalWallList().size(); wall++) {
-					if (row == world.getHorizontalWallList().get(wall).getWallY() && col == world.getHorizontalWallList().get(wall).getWallX()) {
+				for (int wall = 0; wall < world.getWallList().size(); wall++) {
+					if (row == world.getWallList().get(wall).getWallY() && col == world.getWallList().get(wall).getWallX()) {
 						toPrint = 1;
-					}
-				}
-				for (int wall = 0; wall < world.getVerticalWallList().size(); wall++) {
-					if (row == world.getVerticalWallList().get(wall).getWallY() && col == world.getVerticalWallList().get(wall).getWallX()) {
-						toPrint = 2;
 					}
 				}
 				for (int enemy = 0; enemy < world.getEnemyList().size(); enemy++) {
@@ -53,16 +48,13 @@ public class ConsoleView implements View {
 						System.out.print(".");
 						break;
 					case 1:
-						System.out.print("_");
-						break;
-					case 2:
-						System.out.print("|");
+						System.out.print("#");
 						break;
 					case 3:
 						System.out.print("^");
 						break;
 					case 4:
-						System.out.print("#");
+						System.out.print("P");
 						break;
 					case 98:
 						System.out.println("G");
