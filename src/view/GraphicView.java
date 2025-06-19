@@ -25,6 +25,8 @@ public class GraphicView extends JPanel implements View {
 	private final Rectangle player = new Rectangle(1, 1);
 
 	private BufferedImage playerImage;
+	private BufferedImage enemyImage;
+
 	private World currentWorld;
 
 	public GraphicView(int width, int height, Dimension fieldSize) {
@@ -36,6 +38,8 @@ public class GraphicView extends JPanel implements View {
 		try {
 			InputStream stream = getClass().getResourceAsStream("mouse.png");
 			playerImage = ImageIO.read(stream);
+			InputStream enemyStream = getClass().getResourceAsStream("cat.png");  // Pfad zum Gegnerbild
+			enemyImage = ImageIO.read(enemyStream);
 		} catch (IOException | NullPointerException e) {
 			System.err.println("Error loading player image: " + e.getMessage());
 		}
@@ -82,6 +86,17 @@ public class GraphicView extends JPanel implements View {
 				drawPlayerFallback(g);
 			}
 		}
+		// Gegner zeichnen
+		if (enemyImage != null && currentWorld.getEnemyList() != null) {
+			for (model.Enemy enemy : currentWorld.getEnemyList()) {
+				int ex = enemy.getEnemyX() * fieldSize.width;
+				int ey = enemy.getEnemyY() * fieldSize.height;
+				g.drawImage(enemyImage, ex, ey, fieldSize.width, fieldSize.height, null);
+			}
+		} else {
+			// Falls du eine Fallback-Zeichnung möchtest, kannst du sie hier einbauen
+		}
+
 	}
 
 
@@ -123,4 +138,3 @@ public class GraphicView extends JPanel implements View {
 		);
 	}
 }
-		
