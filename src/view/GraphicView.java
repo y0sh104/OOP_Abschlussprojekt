@@ -61,28 +61,30 @@ public class GraphicView extends JPanel implements View {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-		// Hintergrund
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, getWidth(), getHeight());
 
 		if (currentWorld != null) {
-			drawLabyrinth(g, currentWorld);
+			// Entferne diesen Aufruf, wenn labyrinth nicht benutzt wird
+			// drawLabyrinth(g, currentWorld);
+
+			// Nur Wände zeichnen
+			g.setColor(Color.BLACK);
+			for (model.Wall wall : currentWorld.getWallList()) {
+				int wx = wall.getWallX() * fieldSize.width;
+				int wy = wall.getWallY() * fieldSize.height;
+				g.fillRect(wx, wy, fieldSize.width, fieldSize.height);
+			}
 
 			// Spieler zeichnen
 			if (playerImage != null) {
-				g.drawImage(
-						playerImage,
-						player.x,
-						player.y,
-						player.width,
-						player.height,
-						null
-				);
+				g.drawImage(playerImage, player.x, player.y, player.width, player.height, null);
 			} else {
 				drawPlayerFallback(g);
 			}
 		}
 	}
+
 
 	private void drawLabyrinth(Graphics g, World world) {
 		for (int y = 0; y < world.getHeight(); y++) {
