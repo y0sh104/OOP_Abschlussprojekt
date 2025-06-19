@@ -37,7 +37,7 @@ public class GraphicView extends JPanel implements View {
 			InputStream stream = getClass().getResourceAsStream("mouse.png");
 			playerImage = ImageIO.read(stream);
 		} catch (IOException | NullPointerException e) {
-			System.err.println("Spielerbild konnte nicht geladen werden: " + e.getMessage());
+			System.err.println("Error loading player image: " + e.getMessage());
 		}
 	}
 

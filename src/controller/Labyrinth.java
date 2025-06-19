@@ -65,9 +65,6 @@ public class Labyrinth {
                 controller.setMinimumSize(controller.getSize());
                 controller.setLocationRelativeTo(null);
                 controller.setVisible(true);
-
-                world.createWalls();
-                world.createEnemies(controller.getDifficulty());
             }
 
 

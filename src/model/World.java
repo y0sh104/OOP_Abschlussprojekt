@@ -10,6 +10,7 @@ import controller.Controller;
  * accurately reflect the state of the game. Note how this does not know
  * anything about graphics.
  */
+
 public class World {
 
 	/** The world's width. */
@@ -20,9 +21,6 @@ public class World {
 	private int playerX = 0;
 	/** The player's y position in the world. */
 	private int playerY = 0;
-	
-	@SuppressWarnings("unused")
-	private boolean blockArrowInput;
 
 	/** Das Labyrinth als 2D-Array */
 	private FieldType[][] labyrinth = new FieldType[28][28];
@@ -66,7 +64,7 @@ public class World {
 		return blockArrowInput = false;
 	}
 
-	 * Gets the list of enemies.
+	 /** Gets the list of enemies.
 	 * @return the enemy list
 	 */
 	public ArrayList<Enemy> getEnemyList() {
@@ -182,122 +180,6 @@ public class World {
 		}
 	}
 
-	///////////////////////////////////////////////////////////////////////////
-	// Enemy Management
-
-	/**
-	 * Adds an enemy to the enemy list.
-	 * @param enemy the enemy to add to the list
-	 */
-	 public void registerEnemy(Enemy enemy) {
-		enemyList.add(enemy);
-	}
-
-	/**
-	 * Moves the enemies in relation to the players position.
-	 *
-	 */
-	public void moveEnemies() {
-
-		for (int enemy = 0; enemy < enemyList.size(); enemy++) {
-			if (enemyList.get(enemy).getEnemyX() == getPlayerX() && enemyList.get(enemy).getEnemyY() == getPlayerY()) {
-				updateViews();
-				return;
-			}
-		}
-
-		for (int enemy = 0; enemy < enemyList.size(); enemy++) {
-			if (Math.abs(enemyList.get(enemy).getEnemyX() - getPlayerX()) > Math.abs(enemyList.get(enemy).getEnemyY() - getPlayerY())) {
-				if (enemyList.get(enemy).getEnemyX() < getPlayerX()) {
-					boolean moveTest = true;
-					for (int wall = 0; wall < wallList.size(); wall++) {
-						if ((enemyList.get(enemy).getEnemyX() + 1) == wallList.get(wall).getWallX() && (enemyList.get(enemy).getEnemyY()) == wallList.get(wall).getWallY()) {
-							moveTest = false;
-							}
-					}
-					if (moveTest) {
-						enemyList.get(enemy).setEnemyX(enemyList.get(enemy).getEnemyX() + 1);
-					}
-				}
-				else if (enemyList.get(enemy).getEnemyX() > getPlayerX()) {
-					boolean moveTest = true;
-					for (int wall = 0; wall < wallList.size(); wall++) {
-						if ((enemyList.get(enemy).getEnemyX() - 1) == wallList.get(wall).getWallX() && (enemyList.get(enemy).getEnemyY()) == wallList.get(wall).getWallY()) {
-							moveTest = false;
-							}
-					}
-					if (moveTest) {
-						enemyList.get(enemy).setEnemyX(enemyList.get(enemy).getEnemyX() - 1);
-					}
-				}
-			}
-			else {
-				if (enemyList.get(enemy).getEnemyY() < getPlayerY()) {
-					boolean moveTest = true;
-					for (int wall = 0; wall < wallList.size(); wall++) {
-						if ((enemyList.get(enemy).getEnemyX()) == wallList.get(wall).getWallX() && (enemyList.get(enemy).getEnemyY() + 1) == wallList.get(wall).getWallY()) {
-							moveTest = false;
-							}
-					}
-					if (moveTest) {
-						enemyList.get(enemy).setEnemyY(enemyList.get(enemy).getEnemyY() + 1);
-					}
-				}
-				else if (enemyList.get(enemy).getEnemyY() > getPlayerY()) {
-					boolean moveTest = true;
-					for (int wall = 0; wall < wallList.size(); wall++) {
-						if ((enemyList.get(enemy).getEnemyX()) == wallList.get(wall).getWallX() && (enemyList.get(enemy).getEnemyY() - 1) == wallList.get(wall).getWallY()) {
-							moveTest = false;
-							}
-					}
-					if (moveTest) {
-						enemyList.get(enemy).setEnemyY(enemyList.get(enemy).getEnemyY() - 1);
-					}
-				}
-			} 
-		}
-
-		updateViews();
-	}
-
-	/**
-	 * Creates the enemies. Dependend on the difficulty seleccted in the GUI.
-	 * @param difficulty determines how many enemies are created
-	 */
-	public void createEnemies(int difficulty) {
-		if (difficulty == 1) {
-			registerEnemy(new Enemy(3, 5, this));
-			registerEnemy(new Enemy(7, 9, this));
-			registerEnemy(new Enemy(5, 2, this));
-		}
-		updateViews();
-	}
-
-	///////////////////////////////////////////////////////////////////////////
-	// Wall Management
-
-	/**
-	 * Adds an wall to the enemy list.
-	 * @param wall the wall to add to the list
-	 */
-	 public void registerWall(Wall wall) {
-		wallList.add(wall);
-	}
-
-	public void createWalls() {
-		registerWall(new Wall(1, 1));
-		registerWall(new Wall(2, 3));
-		registerWall(new Wall(5, 4));
-		registerWall(new Wall(6, 4));
-		registerWall(new Wall(2, 3));
-		registerWall(new Wall(8, 9));
-		registerWall(new Wall(4, 7));
-		registerWall(new Wall(7, 8));
-		registerWall(new Wall(6, 6));
-		registerWall(new Wall(3, 6));
-		registerWall(new Wall(7, 2));
-	}
-
 
 	///////////////////////////////////////////////////////////////////////////
 	// View Management
@@ -392,6 +274,7 @@ public class World {
 
 		updateViews();
 	}
+	
 
 	/**
 	 * Creates the enemies. Dependend on the difficulty seleccted in the GUI.
