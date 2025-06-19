@@ -8,6 +8,7 @@ import java.awt.event.MouseListener;
 import java.util.List;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import model.Direction;
 import model.World;
@@ -20,6 +21,8 @@ public class Controller extends JFrame implements KeyListener, ActionListener, M
 
 	/** The world that is updated upon every key press. */
 	private World world;
+	@SuppressWarnings("unused")
+	private int difficulty = 1;
 	private List<View> views;
 	private boolean goalReached = false;
 	/**
@@ -45,6 +48,30 @@ public class Controller extends JFrame implements KeyListener, ActionListener, M
 		// TODO Auto-generated method stub
 	}
 
+
+	//////// Difficulty //////
+	
+	public int getDifficulty() {
+		return this.difficulty;
+	}
+
+	public void setDifficulty(int difficulty) {
+		this.difficulty = difficulty;
+	}
+
+	///////// Restart ////////
+
+	public void resetGame() {
+		goalReached = false;
+		this.requestFocusInWindow();
+		System.out.println("NEW GAME! Difficulty: " + difficulty + "\n");
+		JOptionPane.showMessageDialog(this, "NEW GAME! Difficulty: " + difficulty);
+		world.setPlayerX(0);
+		world.setPlayerY(0);
+		world.getEnemyList().clear();
+		world.createEnemies(difficulty);
+	}
+
 	/////////////////// Key Events ////////////////////////////////
 
 	@Override
@@ -53,23 +80,55 @@ public class Controller extends JFrame implements KeyListener, ActionListener, M
 		if (goalReached) return;
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_UP:
-			world.movePlayer(Direction.UP);
+			if (!world.getBlock()) {
+				world.movePlayer(Direction.UP);
+				world.moveEnemies();
+			}
 			break;
-
+			
 		case KeyEvent.VK_DOWN:
-			world.movePlayer(Direction.DOWN);
+			if (!world.getBlock()) {
+				world.movePlayer(Direction.DOWN);
+				world.moveEnemies();
+			}
 			break;
 
 		case KeyEvent.VK_LEFT:
-			world.movePlayer(Direction.LEFT);
+			if (!world.getBlock()) {
+				world.movePlayer(Direction.LEFT);
+				world.moveEnemies();
+			}
 			break;
 
 		case KeyEvent.VK_RIGHT:
-			world.movePlayer(Direction.RIGHT);
+			if (!world.getBlock()) {
+				world.movePlayer(Direction.RIGHT);
+				world.moveEnemies();
+			}
 			break;
+
+		case KeyEvent.VK_N:
+			resetGame();
+			break;
+
+		case KeyEvent.VK_1:
+			setDifficulty(1);
+			resetGame();
+			break;
+
+		case KeyEvent.VK_2:
+			setDifficulty(2);
+			resetGame();
+			break;
+		
+		case KeyEvent.VK_3:
+			setDifficulty(3);
+			resetGame();
+			break;
+		
 		}
 		if (world.isPlayerAtGoal()) {
-			javax.swing.JOptionPane.showMessageDialog(this, "Glückwunsch! Du hast das Ziel erreicht!");
+			javax.swing.JOptionPane.showMessageDialog(this, "Congratulations! You reached the goal!");
 			goalReached = true;
 		}
 	}
@@ -119,10 +178,7 @@ public class Controller extends JFrame implements KeyListener, ActionListener, M
 		// TODO Auto-generated method stub
 		
 	}
-	public void resetGame() {
-		goalReached = false;
-		this.requestFocusInWindow();
-	}
+	
 
 
 }

@@ -30,6 +30,7 @@ public class GraphicView extends JPanel implements View {
 	}
 
 	/** The background rectangle. */
+	@SuppressWarnings("unused")
 	private final Rectangle bg;
 	/** The rectangle we're moving. */
 	private final Rectangle player = new Rectangle(1, 1);
