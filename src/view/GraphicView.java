@@ -1,10 +1,11 @@
 package view;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Rectangle;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import model.FieldType;
@@ -15,40 +16,41 @@ import model.World;
  */
 public class GraphicView extends JPanel implements View {
 
-	/** The view's width. */
 	private final int WIDTH;
-	/** The view's height. */
 	private final int HEIGHT;
 
-	private Dimension fieldDimension;
-
-	public GraphicView(int width, int height, Dimension fieldDimension) {
-		this.WIDTH = width;
-		this.HEIGHT = height;
-		this.fieldDimension = fieldDimension;
-		this.bg = new Rectangle(WIDTH, HEIGHT);
-	}
-
-	/** The background rectangle. */
+	private final Dimension fieldSize;
 	private final Rectangle bg;
-	/** The rectangle we're moving. */
 	private final Rectangle player = new Rectangle(1, 1);
 
+	private BufferedImage playerImage;
+	private World currentWorld;
+
+	public GraphicView(int width, int height, Dimension fieldSize) {
+		this.WIDTH = width;
+		this.HEIGHT = height;
+		this.fieldSize = fieldSize;
+		this.bg = new Rectangle(WIDTH, HEIGHT);
+
+		try {
+			InputStream stream = getClass().getResourceAsStream("mouse.png");
+			playerImage = ImageIO.read(stream);
+		} catch (IOException | NullPointerException e) {
+			System.err.println("Spielerbild konnte nicht geladen werden: " + e.getMessage());
+		}
+	}
 
 	@Override
 	public void update(World world) {
-		// World-Referenz speichern für paintComponent
 		this.currentWorld = world;
-		
-		// Update players size and location
-		player.setSize(fieldDimension);
+		player.setSize(fieldSize);
 		player.setLocation(
-			(int) (world.getPlayerX() * fieldDimension.width),
-			(int) (world.getPlayerY() * fieldDimension.height)
+				world.getPlayerX() * fieldSize.width,
+				world.getPlayerY() * fieldSize.height
 		);
 		repaint();
-
 	}
+
 	@Override
 	public Dimension getPreferredSize() {
 		return new Dimension(WIDTH, HEIGHT);
@@ -58,65 +60,64 @@ public class GraphicView extends JPanel implements View {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-		// Hintergrund weiß
+		// Hintergrund
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, getWidth(), getHeight());
-		
-		// World-Referenz für das Zeichnen benötigt
-		// Diese wird temporär gespeichert
+
 		if (currentWorld != null) {
 			drawLabyrinth(g, currentWorld);
-			drawPlayer(g);
-		}
-	}
-	
-	private World currentWorld;
-	
-	private void drawLabyrinth(Graphics g, World world) {
-		for (int y = 0; y < world.getHeight(); y++) {
-			for (int x = 0; x < world.getWidth(); x++) {
-				FieldType fieldType = world.getFieldType(x, y);
-				
-				int drawX = x * fieldDimension.width;
-				int drawY = y * fieldDimension.height;
-				
-				// Farbe je nach Feldtyp setzen
-				switch (fieldType) {
-					case WALL:
-						g.setColor(Color.BLACK);
-						break;
-					case PATH:
-						g.setColor(Color.LIGHT_GRAY);
-						break;
-					case START:
-						g.setColor(Color.GREEN);
-						break;
-					case GOAL:
-						g.setColor(Color.ORANGE);
-						break;
-					default:
-						g.setColor(Color.WHITE);
-				}
-				
-				g.fillRect(drawX, drawY, fieldDimension.width, fieldDimension.height);
-				
-				// Schwarzer Rand um jedes Feld
-				g.setColor(Color.DARK_GRAY);
-				g.drawRect(drawX, drawY, fieldDimension.width, fieldDimension.height);
+
+			// Spieler zeichnen
+			if (playerImage != null) {
+				g.drawImage(
+						playerImage,
+						player.x,
+						player.y,
+						player.width,
+						player.height,
+						null
+				);
+			} else {
+				drawPlayerFallback(g);
 			}
 		}
 	}
-	
-	private void drawPlayer(Graphics g) {
-		// Spieler als blauer Kreis
+
+	private void drawLabyrinth(Graphics g, World world) {
+		for (int y = 0; y < world.getHeight(); y++) {
+			for (int x = 0; x < world.getWidth(); x++) {
+				FieldType type = world.getFieldType(x, y);
+				int px = x * fieldSize.width;
+				int py = y * fieldSize.height;
+
+				switch (type) {
+					case WALL:
+						g.setColor(Color.BLACK); break;
+					case PATH:
+						g.setColor(Color.LIGHT_GRAY); break;
+					case START:
+						g.setColor(Color.GREEN); break;
+					case GOAL:
+						g.setColor(Color.ORANGE); break;
+					default:
+						g.setColor(Color.WHITE);
+				}
+
+				g.fillRect(px, py, fieldSize.width, fieldSize.height);
+				g.setColor(Color.DARK_GRAY);
+				g.drawRect(px, py, fieldSize.width, fieldSize.height);
+			}
+		}
+	}
+
+	private void drawPlayerFallback(Graphics g) {
 		g.setColor(Color.BLUE);
 		int margin = 3;
 		g.fillOval(
-			player.x + margin, 
-			player.y + margin, 
-			player.width - 2*margin, 
-			player.height - 2*margin
+				player.x + margin,
+				player.y + margin,
+				player.width - 2 * margin,
+				player.height - 2 * margin
 		);
 	}
-
 }
