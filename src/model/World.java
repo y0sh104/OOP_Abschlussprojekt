@@ -47,6 +47,7 @@ public class World {
 		
 		// Labyrinth generieren
 		createWalls();
+		sortFieldTypes();
 		generateNewLabyrinth();
 	}
 
@@ -315,7 +316,7 @@ public class World {
 		if (x < 0 || x >= width || y < 0 || y >= height) {
 			return null;
 		}
-		return labyrinth[y][x];
+		return labyrinth[x][y];
 	}
 	
 	/**
@@ -414,6 +415,25 @@ public class World {
 
 	}
 
-
+	public void sortFieldTypes() {
+		for (int x = 0; x < 28; x++) {
+			for (int y = 0; y < 28; y++) {
+				for (int wall = 0; wall < wallList.size(); wall++) {
+					if (wallList.get(wall).getWallX() == x && wallList.get(wall).getWallY() == y) {
+						labyrinth[x][y] = FieldType.WALL;
+					}
+					else if (x == 1 && y == 1) {
+						labyrinth[1][1] = FieldType.START;
+					}
+					else if (x == 27 && y == 27) {
+						labyrinth[27][27] = FieldType.GOAL;
+					}
+					else {
+						labyrinth[x][y] = FieldType.PATH;
+					}
+					}
+				}
+			}
+		}
 
 }
