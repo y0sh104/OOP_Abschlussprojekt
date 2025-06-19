@@ -22,6 +22,7 @@ public class Controller extends JFrame implements KeyListener, ActionListener, M
 	/** The world that is updated upon every key press. */
 	private World world;
 	private static int difficulty = 1;
+
 	@SuppressWarnings("unused")
 	private List<View> views;
 	private boolean goalReached = false;

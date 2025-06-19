@@ -2,7 +2,7 @@ package controller;
 
 import java.awt.Dimension;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 
 import model.World;
 import view.ConsoleView;
@@ -65,6 +65,9 @@ public class Labyrinth {
                 controller.setMinimumSize(controller.getSize());
                 controller.setLocationRelativeTo(null);
                 controller.setVisible(true);
+
+                world.createWalls();
+                world.createEnemies(controller.getDifficulty());
             }
 
 

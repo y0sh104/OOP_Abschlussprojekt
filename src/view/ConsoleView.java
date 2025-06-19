@@ -58,6 +58,7 @@ public class ConsoleView implements View {
 						break;
 					case 98:
 						System.out.print("G");
+
 						break;
 					case 99:
 						System.out.print("C");
