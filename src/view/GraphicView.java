@@ -65,8 +65,7 @@ public class GraphicView extends JPanel implements View {
 		g.fillRect(0, 0, getWidth(), getHeight());
 
 		if (currentWorld != null) {
-			// Entferne diesen Aufruf, wenn labyrinth nicht benutzt wird
-			// drawLabyrinth(g, currentWorld);
+			drawLabyrinth(g, currentWorld);
 
 			// Nur Wände zeichnen
 			g.setColor(Color.BLACK);
