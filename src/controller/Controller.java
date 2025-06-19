@@ -21,10 +21,11 @@ public class Controller extends JFrame implements KeyListener, ActionListener, M
 
 	/** The world that is updated upon every key press. */
 	private World world;
-	private int difficulty = 1;
+	private static int difficulty = 1;
+
 	@SuppressWarnings("unused")
 	private List<View> views;
-
+	private boolean goalReached = false;
 	/**
 	 * Creates a new instance.
 	 * 
@@ -45,27 +46,29 @@ public class Controller extends JFrame implements KeyListener, ActionListener, M
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		// 
 	}
 
-	/////// Difficulty Getter & Setter /////////
+
+	//////// Difficulty //////
 	
-	public int getDifficulty() {
-		return this.difficulty;
+	public static int getDifficulty() {
+		return difficulty;
 	}
 
-	public void setDifficulty(int difficulty) {
-		this.difficulty = difficulty;
+	public void setDifficulty(int diff) {
+		difficulty = diff;
 	}
 
 
-	////////////// Restart //////
-	
-	public void restartGame() {
+	///////// Restart ////////
+
+	public void resetGame() {
+		goalReached = false;
+		this.requestFocusInWindow();
 		System.out.println("NEW GAME! Difficulty: " + difficulty + "\n");
 		JOptionPane.showMessageDialog(this, "NEW GAME! Difficulty: " + difficulty);
-		world.setPlayerX(0);
-		world.setPlayerY(0);
+		world.setPlayerX(1);
+		world.setPlayerY(1);
 		world.getEnemyList().clear();
 		world.createEnemies(difficulty);
 	}
@@ -75,6 +78,7 @@ public class Controller extends JFrame implements KeyListener, ActionListener, M
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// Check if we need to do something. Tells the world to move the player.
+		if (goalReached) return;
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_UP:
 			if (!world.getBlock()) {
@@ -105,70 +109,64 @@ public class Controller extends JFrame implements KeyListener, ActionListener, M
 			break;
 
 		case KeyEvent.VK_N:
-			restartGame();
+			resetGame();
 			break;
 
 		case KeyEvent.VK_1:
 			setDifficulty(1);
-			restartGame();
+			resetGame();
 			break;
 
 		case KeyEvent.VK_2:
 			setDifficulty(2);
-			restartGame();
+			resetGame();
 			break;
 		
 		case KeyEvent.VK_3:
 			setDifficulty(3);
-			restartGame();
+			resetGame();
 			break;
 		
 		}
+		if (world.isPlayerAtGoal()) {
+			javax.swing.JOptionPane.showMessageDialog(this, "Congratulations! You reached the goal!");
+			goalReached = true;
+		}
 	}
+
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// 
 	}
 
 	/////////////////// Action Events ////////////////////////////////
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// 
-		
 	}
 	
 	/////////////////// Mouse Events ////////////////////////////////
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// 
-		
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// 
-		
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// 
-		
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// 
-		
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// 
-		
 	}
+	
+
 
 }
