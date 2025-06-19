@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 
 import view.View;
+import controller.Controller;
 
 /**
  * The world is our model. It saves the bare minimum of information required to
@@ -26,11 +27,10 @@ public class World {
 	/** Das Labyrinth als 2D-Array */
 	private FieldType[][] labyrinth;
 	/** Start-Position im Labyrinth */
-	private Position startPosition;
+	private final Position startPosition = new Position(1, 1);
 	/** Ziel-Position im Labyrinth */
-	private Position goalPosition;
+	private final Position goalPosition = new Position(27, 27);
 	/** Generator für Labyrinthe */
-	private final LabyrinthGenerator generator;
 
 	/** Set of views registered to be notified of world updates. */
 	private final ArrayList<View> views = new ArrayList<>();
@@ -44,16 +44,11 @@ public class World {
 		// Normally, we would check the arguments for proper values
 		this.width = width;
 		this.height = height;
-		this.generator = new LabyrinthGenerator();
 		
 		// Labyrinth generieren
+		createWalls();
 		generateNewLabyrinth();
 	}
-	public void regenerate() {
-		generateNewLabyrinth();
-
-	}
-
 
 	///////////////////////////////////////////////////////////////////////////
 	// Getters and Setters
@@ -67,7 +62,6 @@ public class World {
 		return blockArrowInput = false;
 	}
 
-	
 	/**
 	 * Gets the list of enemies.
 	 * @return the enemy list
@@ -204,13 +198,6 @@ public class World {
 	///////////////////////////////////////////////////////////////////////////
 	// Enemy Management
 
-	/**
-	 * Adds an enemy to the enemy list.
-	 * @param enemy the enemy to add to the list
-	 */
-	 public void registerEnemy(Enemy enemy) {
-		enemyList.add(enemy);
-	}
 
 	/**
 	 * Moves the enemies in relation to the players position.
@@ -285,9 +272,9 @@ public class World {
 	 */
 	public void createEnemies(int difficulty) {
 		if (difficulty == 1) {
-			registerEnemy(new Enemy(3, 5, this));
-			registerEnemy(new Enemy(7, 9, this));
-			registerEnemy(new Enemy(5, 2, this));
+			enemyList.add(new Enemy(3, 5, this));
+			enemyList.add(new Enemy(7, 9, this));
+			enemyList.add(new Enemy(5, 2, this));
 		}
 		updateViews();
 	}
@@ -300,35 +287,22 @@ public class World {
 	 * Rufe das wirklich dumme Labyrinth auf.
 	 */
 	public void generateNewLabyrinth() {
-		// Einfaches Labyrinth für den Anfang
-		this.labyrinth = generator.generateSimpleLabyrinth(width, height);
-		
 		// Start- und Zielpositionen finden
-		findStartAndGoalPositions();
+		getStartPosition();
+		getGoalPosition();
+
+		getWallList(); // TODO
 		
 		// Spieler auf Startposition setzen
-		if (startPosition != null) {
-			this.playerX = startPosition.getX();
-			this.playerY = startPosition.getY();
-		}
+		this.playerX = startPosition.getX();
+		this.playerY = startPosition.getY();
+
+		enemyList.clear();
+		createEnemies(Controller.getDifficulty());
 		
 		updateViews();
 	}
 	
-	/**
-	 * Findet Start- und Zielpositionen im Labyrinth.
-	 */
-	private void findStartAndGoalPositions() {
-		for (int y = 0; y < height; y++) {
-			for (int x = 0; x < width; x++) {
-				if (labyrinth[y][x] == FieldType.START) {
-					startPosition = new Position(x, y);
-				} else if (labyrinth[y][x] == FieldType.GOAL) {
-					goalPosition = new Position(x, y);
-				}
-			}
-		}
-	}
 	
 	/**
 	 * Gibt den Feldtyp an der angegebenen Position zurück.
@@ -372,26 +346,72 @@ public class World {
 	///////////////////////////////////////////////////////////////////////////
 	// Wall Management
 
-	/**
-	 * Adds an wall to the enemy list.
-	 * @param wall the wall to add to the list
-	 */
-	 public void registerWall(Wall wall) {
-		wallList.add(wall);
-	}
-
 	public void createWalls() {
-		registerWall(new Wall(1, 1));
-		registerWall(new Wall(2, 3));
-		registerWall(new Wall(5, 4));
-		registerWall(new Wall(6, 4));
-		registerWall(new Wall(2, 3));
-		registerWall(new Wall(8, 9));
-		registerWall(new Wall(4, 7));
-		registerWall(new Wall(7, 8));
-		registerWall(new Wall(6, 6));
-		registerWall(new Wall(3, 6));
-		registerWall(new Wall(7, 2));
+		for (int x = 0; x < 29; x++) {
+			wallList.add(new Wall(x, 0));
+		}
+		wallList.add(new Wall(0, 1));
+		wallList.add(new Wall(27, 1));
+		wallList.add(new Wall(0, 2));
+		wallList.add(new Wall(2, 2));
+		wallList.add(new Wall(3, 2));
+		wallList.add(new Wall(4, 2));
+		wallList.add(new Wall(5, 2));
+		wallList.add(new Wall(7, 2));
+		wallList.add(new Wall(8, 2));
+		wallList.add(new Wall(10, 2));
+		wallList.add(new Wall(11, 2));
+		wallList.add(new Wall(12, 2));
+		wallList.add(new Wall(13, 2));
+		wallList.add(new Wall(14, 2));
+		wallList.add(new Wall(15, 2));
+		wallList.add(new Wall(16, 2));
+		wallList.add(new Wall(17, 2));
+		wallList.add(new Wall(19, 2));
+		wallList.add(new Wall(20, 2));
+		wallList.add(new Wall(22, 2));
+		wallList.add(new Wall(23, 2));
+		wallList.add(new Wall(24, 2));
+		wallList.add(new Wall(25, 2));
+		wallList.add(new Wall(27, 2));
+		wallList.add(new Wall(2, 3));
+		wallList.add(new Wall(3, 3));
+		wallList.add(new Wall(4, 3));
+		wallList.add(new Wall(5, 3));
+		wallList.add(new Wall(7, 3));
+		wallList.add(new Wall(8, 3));
+		wallList.add(new Wall(10, 3));
+		wallList.add(new Wall(12, 3));
+		wallList.add(new Wall(13, 3));
+		wallList.add(new Wall(14, 3));
+		wallList.add(new Wall(15, 3));
+		wallList.add(new Wall(11, 3));
+		wallList.add(new Wall(16, 3));
+		wallList.add(new Wall(17, 3));
+		wallList.add(new Wall(19, 3));
+		wallList.add(new Wall(20, 3));
+		wallList.add(new Wall(22, 3));
+		wallList.add(new Wall(23, 3));
+		wallList.add(new Wall(24, 3));
+		wallList.add(new Wall(25, 3));
+		wallList.add(new Wall(2, 4));
+		wallList.add(new Wall(3, 4));
+		wallList.add(new Wall(4, 4));
+		wallList.add(new Wall(5, 4));
+		wallList.add(new Wall(7, 4));
+		wallList.add(new Wall(8, 4));
+		wallList.add(new Wall(10, 4));
+		wallList.add(new Wall(11, 4));
+		wallList.add(new Wall(16, 4));
+		wallList.add(new Wall(17, 4));
+		wallList.add(new Wall(19, 4));
+		wallList.add(new Wall(20, 4));
+		wallList.add(new Wall(22, 4));
+		wallList.add(new Wall(23, 4));
+		wallList.add(new Wall(24, 4));
+		wallList.add(new Wall(25, 4));
+		
+
 	}
 
 

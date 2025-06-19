@@ -17,11 +17,12 @@ import java.awt.BorderLayout;
  */
 public class Labyrinth {
 
+
     public static void main(String[] args) {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                int width = 20;
-                int height = 20;
+                int width = 28;
+                int height = 28;
                 World world = new World(width, height);
 
                 Dimension fieldDimensions = new Dimension(25, 25);
@@ -37,7 +38,7 @@ public class Labyrinth {
                 world.registerView(cview);
 
                 Controller controller = new Controller(world);
-                controller.setTitle("Square Move Practice");
+                controller.setTitle("Labyrinth Game");
                 controller.setResizable(false);
                 controller.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -45,9 +46,8 @@ public class Labyrinth {
                 controller.requestFocusInWindow();
 
 
-                JButton regenerateButton = new JButton("Neue Runde");
+                JButton regenerateButton = new JButton("New Game!");
                 regenerateButton.addActionListener(e -> {
-                    world.regenerate();
                     gview.repaint();
                     controller.resetGame();
                 });
@@ -65,9 +65,6 @@ public class Labyrinth {
                 controller.setMinimumSize(controller.getSize());
                 controller.setLocationRelativeTo(null);
                 controller.setVisible(true);
-
-                world.createWalls();
-                world.createEnemies(controller.getDifficulty());
             }
 
 

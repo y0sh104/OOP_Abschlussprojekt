@@ -21,8 +21,8 @@ public class Controller extends JFrame implements KeyListener, ActionListener, M
 
 	/** The world that is updated upon every key press. */
 	private World world;
+	private static int difficulty = 1;
 	@SuppressWarnings("unused")
-	private int difficulty = 1;
 	private List<View> views;
 	private boolean goalReached = false;
 	/**
@@ -51,13 +51,14 @@ public class Controller extends JFrame implements KeyListener, ActionListener, M
 
 	//////// Difficulty //////
 	
-	public int getDifficulty() {
-		return this.difficulty;
+	public static int getDifficulty() {
+		return difficulty;
 	}
 
-	public void setDifficulty(int difficulty) {
-		this.difficulty = difficulty;
+	public void setDifficulty(int diff) {
+		difficulty = diff;
 	}
+
 
 	///////// Restart ////////
 
@@ -66,8 +67,8 @@ public class Controller extends JFrame implements KeyListener, ActionListener, M
 		this.requestFocusInWindow();
 		System.out.println("NEW GAME! Difficulty: " + difficulty + "\n");
 		JOptionPane.showMessageDialog(this, "NEW GAME! Difficulty: " + difficulty);
-		world.setPlayerX(0);
-		world.setPlayerY(0);
+		world.setPlayerX(1);
+		world.setPlayerY(1);
 		world.getEnemyList().clear();
 		world.createEnemies(difficulty);
 	}

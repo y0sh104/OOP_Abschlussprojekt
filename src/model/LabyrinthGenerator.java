@@ -122,7 +122,7 @@ public class LabyrinthGenerator {
 
         // Start und Ziel setzen
         labyrinth[1][1] = FieldType.START;
-        labyrinth[height-2][width-2] = FieldType.GOAL;
+        labyrinth[height-2][width-2] = FieldType.GOAL; 
 
         //PATH über Ecke immer sperren -> wäre zu einfach.
         labyrinth[1][width - 2] = FieldType.WALL;
