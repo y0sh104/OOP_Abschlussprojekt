@@ -360,9 +360,15 @@ public class World {
 		for (int x = 0; x < 29; x++) {
 			wallList.add(new Wall(x, 0));
 		}
-		wallList.add(new Wall(0, 1));
-		wallList.add(new Wall(27, 1));
-		wallList.add(new Wall(0, 2));
+		for (int y = 1; y < 20; y++) {
+			wallList.add(new Wall(0, y));
+		}
+		for (int y = 1; y < 20; y++) {
+			wallList.add(new Wall(27, y));
+		}
+		for (int x = 1; x < 27; x++) {
+			wallList.add(new Wall(x, 27));
+		}
 		wallList.add(new Wall(2, 2));
 		wallList.add(new Wall(3, 2));
 		wallList.add(new Wall(4, 2));
@@ -383,7 +389,6 @@ public class World {
 		wallList.add(new Wall(23, 2));
 		wallList.add(new Wall(24, 2));
 		wallList.add(new Wall(25, 2));
-		wallList.add(new Wall(27, 2));
 		wallList.add(new Wall(2, 3));
 		wallList.add(new Wall(3, 3));
 		wallList.add(new Wall(4, 3));
