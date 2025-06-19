@@ -44,6 +44,11 @@ public class World {
 		// Labyrinth generieren
 		generateNewLabyrinth();
 	}
+	public void regenerate() {
+		generateNewLabyrinth();
+
+	}
+
 
 	///////////////////////////////////////////////////////////////////////////
 	// Getters and Setters

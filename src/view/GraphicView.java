@@ -47,12 +47,17 @@ public class GraphicView extends JPanel implements View {
 			(int) (world.getPlayerY() * fieldDimension.height)
 		);
 		repaint();
+
 	}
-	
+	@Override
+	public Dimension getPreferredSize() {
+		return new Dimension(WIDTH, HEIGHT);
+	}
+
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		
+
 		// Hintergrund weiß
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, getWidth(), getHeight());

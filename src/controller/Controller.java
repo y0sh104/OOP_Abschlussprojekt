@@ -21,7 +21,7 @@ public class Controller extends JFrame implements KeyListener, ActionListener, M
 	/** The world that is updated upon every key press. */
 	private World world;
 	private List<View> views;
-
+	private boolean goalReached = false;
 	/**
 	 * Creates a new instance.
 	 * 
@@ -50,6 +50,7 @@ public class Controller extends JFrame implements KeyListener, ActionListener, M
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// Check if we need to do something. Tells the world to move the player.
+		if (goalReached) return;
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_UP:
 			world.movePlayer(Direction.UP);
@@ -67,7 +68,12 @@ public class Controller extends JFrame implements KeyListener, ActionListener, M
 			world.movePlayer(Direction.RIGHT);
 			break;
 		}
+		if (world.isPlayerAtGoal()) {
+			javax.swing.JOptionPane.showMessageDialog(this, "Glückwunsch! Du hast das Ziel erreicht!");
+			goalReached = true;
+		}
 	}
+
 
 	@Override
 	public void keyReleased(KeyEvent e) {
@@ -113,5 +119,10 @@ public class Controller extends JFrame implements KeyListener, ActionListener, M
 		// TODO Auto-generated method stub
 		
 	}
+	public void resetGame() {
+		goalReached = false;
+		this.requestFocusInWindow();
+	}
+
 
 }
