@@ -25,7 +25,7 @@ public class World {
 	private boolean blockArrowInput;
 
 	/** Das Labyrinth als 2D-Array */
-	private FieldType[][] labyrinth;
+	private FieldType[][] labyrinth = new FieldType[28][28];
 	/** Start-Position im Labyrinth */
 	private final Position startPosition = new Position(1, 1);
 	/** Ziel-Position im Labyrinth */
