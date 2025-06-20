@@ -39,7 +39,7 @@ public class ConsoleView implements View {
 				if (row == playerY && col == playerX && enemyPos == false) {
 					toPrint = 4;
 				}
-				if (row == 9 && col == 9) {
+				if (row == 26 && col == 26) {
 					toPrint = 98;
 				}
 

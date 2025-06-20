@@ -48,8 +48,22 @@ public class Labyrinth {
 
                 JButton regenerateButton = new JButton("New Game!");
                 regenerateButton.addActionListener(e -> {
-                    gview.repaint();
                     controller.resetGame();
+                });
+
+                JButton diff_1 = new JButton("Difficulty 1");
+                diff_1.addActionListener(e -> {
+                    controller.setDifficulty(1);
+                });
+
+                JButton diff_2 = new JButton("Difficulty 2");
+                diff_2.addActionListener(e -> {
+                    controller.setDifficulty(2);
+                });
+
+                JButton diff_3 = new JButton("Difficulty 3");
+                diff_3.addActionListener(e -> {
+                    controller.setDifficulty(3);
                 });
 
                 JPanel mainPanel = new JPanel(new BorderLayout());
@@ -57,6 +71,9 @@ public class Labyrinth {
 
                 JPanel buttonPanel = new JPanel();
                 buttonPanel.add(regenerateButton);
+                buttonPanel.add(diff_1);
+                buttonPanel.add(diff_2);
+                buttonPanel.add(diff_3);
                 mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 
                 controller.getContentPane().add(mainPanel);
@@ -65,9 +82,6 @@ public class Labyrinth {
                 controller.setMinimumSize(controller.getSize());
                 controller.setLocationRelativeTo(null);
                 controller.setVisible(true);
-
-                world.createWalls();
-                world.createEnemies(controller.getDifficulty());
             }
 
 

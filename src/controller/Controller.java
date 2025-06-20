@@ -57,6 +57,7 @@ public class Controller extends JFrame implements KeyListener, ActionListener, M
 
 	public void setDifficulty(int diff) {
 		difficulty = diff;
+		resetGame();
 	}
 
 
@@ -114,23 +115,21 @@ public class Controller extends JFrame implements KeyListener, ActionListener, M
 
 		case KeyEvent.VK_1:
 			setDifficulty(1);
-			resetGame();
 			break;
 
 		case KeyEvent.VK_2:
 			setDifficulty(2);
-			resetGame();
 			break;
 		
 		case KeyEvent.VK_3:
 			setDifficulty(3);
-			resetGame();
 			break;
 		
 		}
 		if (world.isPlayerAtGoal()) {
 			javax.swing.JOptionPane.showMessageDialog(this, "Congratulations! You reached the goal!");
 			goalReached = true;
+			resetGame();
 		}
 	}
 
