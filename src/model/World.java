@@ -117,12 +117,6 @@ public class World {
 			return;
 		}
 		
-		// Gegen die Wand gelaufen
-		if (labyrinth[this.playerY][playerX] != null && 
-			!labyrinth[this.playerY][playerX].isWalkable()) {
-			return;
-		}
-		
 		this.playerX = playerX;
 		updateViews();
 	}
@@ -147,12 +141,6 @@ public class World {
 			return;
 		}
 		
-		// ... und lerne die Wände kennen.
-		if (labyrinth[playerY][this.playerX] != null && 
-			!labyrinth[playerY][this.playerX].isWalkable()) {
-			return;
-		}
-		
 		this.playerY = playerY;
 		updateViews();
 	}
@@ -168,16 +156,9 @@ public class World {
 	public void movePlayer(Direction direction) {	
 		// The direction tells us exactly how much we need to move along
 		// every direction
-		boolean moveTest = true;
-		for (int wall = 0; wall < wallList.size(); wall++) {
-			if ((getPlayerX() + direction.deltaX) == wallList.get(wall).getWallX() && (getPlayerY() + direction.deltaY) == wallList.get(wall).getWallY()) {
-				moveTest = false;
-			}
-		}
-		if (moveTest) {
+		if (labyrinth[getPlayerX() + direction.deltaX][getPlayerY() + direction.deltaY].isWalkable())
 			setPlayerX(getPlayerX() + direction.deltaX);
 			setPlayerY(getPlayerY() + direction.deltaY);
-		}
 	}
 
 
@@ -296,7 +277,7 @@ private boolean tryMove(Enemy enemy, int dx, int dy, int enemyIndex) {
 		getStartPosition();
 		getGoalPosition();
 
-		getWallList(); // TODO
+		getWallList();
 		
 		// Spieler auf Startposition setzen
 		this.playerX = startPosition.getX();
@@ -351,7 +332,7 @@ private boolean tryMove(Enemy enemy, int dx, int dy, int enemyIndex) {
 	///////////////////////////////////////////////////////////////////////////
 	// Wall Management
 
-	public void createWalls() {
+	public void createWalls() {// TODO
 		for (int x = 0; x < 29; x++) {
 			wallList.add(new Wall(x, 0));
 		}
@@ -420,8 +401,62 @@ private boolean tryMove(Enemy enemy, int dx, int dy, int enemyIndex) {
 		wallList.add(new Wall(23, 4));
 		wallList.add(new Wall(24, 4));
 		wallList.add(new Wall(25, 4));
-		
-
+		wallList.add(new Wall(7, 5));
+		wallList.add(new Wall(8, 5));
+		wallList.add(new Wall(10, 5));
+		wallList.add(new Wall(11, 5));
+		wallList.add(new Wall(13, 5));
+		wallList.add(new Wall(14, 5));
+		wallList.add(new Wall(16, 5));
+		wallList.add(new Wall(17, 5));
+		wallList.add(new Wall(19, 5));
+		wallList.add(new Wall(20, 5));
+		wallList.add(new Wall(2, 6));
+		wallList.add(new Wall(3, 6));
+		wallList.add(new Wall(5, 6));
+		wallList.add(new Wall(6, 6));
+		wallList.add(new Wall(7, 6));
+		wallList.add(new Wall(8, 6));
+		wallList.add(new Wall(10, 6));
+		wallList.add(new Wall(11, 6));
+		wallList.add(new Wall(13, 6));
+		wallList.add(new Wall(14, 6));
+		wallList.add(new Wall(16, 6));
+		wallList.add(new Wall(17, 6));
+		wallList.add(new Wall(19, 6));
+		wallList.add(new Wall(20, 6));
+		wallList.add(new Wall(21, 6));
+		wallList.add(new Wall(22, 6));
+		wallList.add(new Wall(24, 6));
+		wallList.add(new Wall(25, 6));
+		wallList.add(new Wall(2, 7));
+		wallList.add(new Wall(3, 7));
+		wallList.add(new Wall(5, 7));
+		wallList.add(new Wall(6, 7));
+		wallList.add(new Wall(7, 7));
+		wallList.add(new Wall(8, 7));
+		wallList.add(new Wall(10, 7));
+		wallList.add(new Wall(11, 7));
+		wallList.add(new Wall(13, 7));
+		wallList.add(new Wall(14, 7));
+		wallList.add(new Wall(16, 7));
+		wallList.add(new Wall(17, 7));
+		wallList.add(new Wall(19, 7));
+		wallList.add(new Wall(20, 7));
+		wallList.add(new Wall(21, 7));
+		wallList.add(new Wall(22, 7));
+		wallList.add(new Wall(24, 7));
+		wallList.add(new Wall(25, 7));
+		wallList.add(new Wall(2, 8));
+		wallList.add(new Wall(3, 8));
+		wallList.add(new Wall(7, 8));
+		wallList.add(new Wall(8, 8));;
+		wallList.add(new Wall(13, 8));
+		wallList.add(new Wall(14, 8));
+		wallList.add(new Wall(19, 8));
+		wallList.add(new Wall(20, 8));
+		wallList.add(new Wall(24, 8));
+		wallList.add(new Wall(25, 8));
 	}
 
 	public void sortFieldTypes() {

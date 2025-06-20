@@ -1,4 +1,3 @@
-fix goal
+finish walls 
 
-fix enemy movemennt (can walk into other enemies; dont move when under u)
-
+finish docs
