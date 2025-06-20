@@ -9,6 +9,10 @@ import model.World;
 public class ConsoleView implements View {
 
 	@Override
+	/**
+	 * Updates the console view with information given by the world parameter.
+	 * @param world world gives the information to update the view with
+	 */
 	public void update(World world) {
 		// The player's position
 		int playerX = world.getPlayerX();

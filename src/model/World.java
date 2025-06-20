@@ -22,20 +22,22 @@ public class World {
 	/** The player's y position in the world. */
 	private int playerY = 0;
 
-	/** Das Labyrinth als 2D-Array */
+	/** the labyrinth as a 2D-array */
 	private FieldType[][] labyrinth = new FieldType[28][28];
-	/** Start-Position im Labyrinth */
+	/** start position in the labyrinth */
 	private final Position startPosition = new Position(1, 1);
-	/** Ziel-Position im Labyrinth */
+	/** goal position in the labyrinth */
 	private final Position goalPosition = new Position(26, 26);
-	/** Generator für Labyrinthe */
 
 	@SuppressWarnings("unused")
+	/** Holds a value to check wether arrow inputs should be blocked */
 	private boolean blockArrowInput;
 
 	/** Set of views registered to be notified of world updates. */
 	private final ArrayList<View> views = new ArrayList<>();
+	/** List of enemies in the game */
 	private ArrayList<Enemy> enemyList = new ArrayList<>();
+	/** List of walls created on the game board */
 	private ArrayList<Wall> wallList = new ArrayList<>();
 
 	/**
@@ -45,8 +47,8 @@ public class World {
 		// Normally, we would check the arguments for proper values
 		this.width = width;
 		this.height = height;
-		
-		// Labyrinth generieren
+
+		// creates the important elements
 		createWalls();
 		sortFieldTypes();
 		generateNewLabyrinth();
@@ -55,6 +57,10 @@ public class World {
 	///////////////////////////////////////////////////////////////////////////
 	// Getters and Setters
 
+	/**
+	 * Gets the block status
+	 * @return the wether the arrowinputs are blocked
+	 */
 	public boolean getBlock() {
 		for (int enemy = 0; enemy < enemyList.size(); enemy++) {
 			if (enemyList.get(enemy).getEnemyX() == getPlayerX() && enemyList.get(enemy).getEnemyY() == getPlayerY()) {
@@ -64,15 +70,18 @@ public class World {
 		return blockArrowInput = false;
 	}
 
-	 /** Gets the list of enemies.
+	/**
+	 * Gets the list of enemies.
+	 * 
 	 * @return the enemy list
 	 */
 	public ArrayList<Enemy> getEnemyList() {
 		return enemyList;
 	}
 
-			/**
+	/**
 	 * Gets the list of walls.
+	 * 
 	 * @return returns the wall list
 	 */
 	public ArrayList<Wall> getWallList() {
@@ -116,7 +125,7 @@ public class World {
 		if (playerX < 0 || playerX >= getWidth()) {
 			return;
 		}
-		
+
 		this.playerX = playerX;
 		updateViews();
 	}
@@ -140,27 +149,26 @@ public class World {
 		if (playerY < 0 || playerY >= getHeight()) {
 			return;
 		}
-		
+
 		this.playerY = playerY;
 		updateViews();
 	}
 
 	///////////////////////////////////////////////////////////////////////////
 	// Player Management
-	
+
 	/**
 	 * Moves the player along the given direction.
 	 * 
 	 * @param direction where to move.
 	 */
-	public void movePlayer(Direction direction) {	
+	public void movePlayer(Direction direction) {
 		// The direction tells us exactly how much we need to move along
 		// every direction
 		if (labyrinth[getPlayerX() + direction.deltaX][getPlayerY() + direction.deltaY].isWalkable())
 			setPlayerX(getPlayerX() + direction.deltaX);
-			setPlayerY(getPlayerY() + direction.deltaY);
+		setPlayerY(getPlayerY() + direction.deltaY);
 	}
-
 
 	///////////////////////////////////////////////////////////////////////////
 	// View Management
@@ -184,118 +192,118 @@ public class World {
 			views.get(i).update(this);
 		}
 	}
-	
+
 	///////////////////////////////////////////////////////////////////////////
 	// Enemy Management
 
-
 	/**
-	 * Moves the enemies in relation to the players position.
+	 * Moves the enemies in relation to the players position. Checks wether walls or other enemies are in the way.
 	 *
 	 */
 	public void moveEnemies() {
 		for (int enemy = 0; enemy < enemyList.size(); enemy++) {
-        Enemy current = enemyList.get(enemy);
+			Enemy current = enemyList.get(enemy);
 
-        // Check for collision with player
-        	if (current.getEnemyX() == getPlayerX() && current.getEnemyY() == getPlayerY()) {
-            	updateViews();
-            	return;
-        	}
+			// Check for collision with player
+			if (current.getEnemyX() == getPlayerX() && current.getEnemyY() == getPlayerY()) {
+				updateViews();
+				return;
+			}
 		}
 
-    for (int enemy = 0; enemy < enemyList.size(); enemy++) {
-        Enemy current = enemyList.get(enemy);
-        int dx = Integer.compare(getPlayerX(), current.getEnemyX()); // -1, 0 or 1
-        int dy = Integer.compare(getPlayerY(), current.getEnemyY());
+		for (int enemy = 0; enemy < enemyList.size(); enemy++) {
+			Enemy current = enemyList.get(enemy);
+			int dx = Integer.compare(getPlayerX(), current.getEnemyX()); // -1, 0 or 1
+			int dy = Integer.compare(getPlayerY(), current.getEnemyY());
 
-        boolean moved = false;
+			boolean moved = false;
 
-        // First try moving in the dominant axis
-        if (Math.abs(getPlayerX() - current.getEnemyX()) > Math.abs(getPlayerY() - current.getEnemyY())) {
-            moved = tryMove(current, dx, 0, enemy);
-            if (!moved) moved = tryMove(current, 0, dy, enemy); // fallback
-        } else {
-            moved = tryMove(current, 0, dy, enemy);
-            if (!moved) moved = tryMove(current, dx, 0, enemy); // fallback
-        }
-    }
+			// First try moving in the dominant axis
+			if (Math.abs(getPlayerX() - current.getEnemyX()) > Math.abs(getPlayerY() - current.getEnemyY())) {
+				moved = tryMove(current, dx, 0, enemy);
+				if (!moved)
+					moved = tryMove(current, 0, dy, enemy); // fallback
+			} else {
+				moved = tryMove(current, 0, dy, enemy);
+				if (!moved)
+					moved = tryMove(current, dx, 0, enemy); // fallback
+			}
+		}
 
-    updateViews();
-}
+		updateViews();
+	}
 
-// Helper method to try moving an enemy in a direction
-private boolean tryMove(Enemy enemy, int dx, int dy, int enemyIndex) {
-    int newX = enemy.getEnemyX() + dx;
-    int newY = enemy.getEnemyY() + dy;
+	// Helper method to try moving an enemy in a direction
+	private boolean tryMove(Enemy enemy, int dx, int dy, int enemyIndex) {
+		int newX = enemy.getEnemyX() + dx;
+		int newY = enemy.getEnemyY() + dy;
 
-    // Check wall collision
-    for (Wall wall : wallList) {
-        if (wall.getWallX() == newX && wall.getWallY() == newY) {
-            return false;
-        }
-    }
+		// Check wall collision
+		for (Wall wall : wallList) {
+			if (wall.getWallX() == newX && wall.getWallY() == newY) {
+				return false;
+			}
+		}
 
-    // Check enemy collision (skip self)
-    for (int i = 0; i < enemyList.size(); i++) {
-        if (i == enemyIndex) continue;
-        if (enemyList.get(i).getEnemyX() == newX && enemyList.get(i).getEnemyY() == newY) {
-            return false;
-        }
-    }
+		// Check enemy collision (skip self)
+		for (int i = 0; i < enemyList.size(); i++) {
+			if (i == enemyIndex)
+				continue;
+			if (enemyList.get(i).getEnemyX() == newX && enemyList.get(i).getEnemyY() == newY) {
+				return false;
+			}
+		}
 
-    // All clear – move enemy
-    enemy.setEnemyX(newX);
-    enemy.setEnemyY(newY);
-    return true;
-}
+		// All clear – move enemy
+		enemy.setEnemyX(newX);
+		enemy.setEnemyY(newY);
+		return true;
+	}
 
 	/**
 	 * Creates the enemies. Dependend on the difficulty seleccted in the GUI.
+	 * 
 	 * @param difficulty determines how many enemies are created
 	 */
 	public void createEnemies(int difficulty) {
 		if (difficulty == 1) {
 			enemyList.add(new Enemy(12, 17, this));
-		}
-		else if (difficulty == 2) {
+		} else if (difficulty == 2) {
 			enemyList.add(new Enemy(12, 15, this));
 			enemyList.add(new Enemy(17, 18, this));
 		}
 		updateViews();
 	}
 
-
 	///////////////////////////////////////////////////////////////////////////
 	// Labyrinth Management
+
 	
-	/**
-	 * Rufe das wirklich dumme Labyrinth auf.
-	 */
 	public void generateNewLabyrinth() {
-		// Start- und Zielpositionen finden
+		// gets start and goal positions
 		getStartPosition();
 		getGoalPosition();
 
+		// gets the wallList
 		getWallList();
-		
-		// Spieler auf Startposition setzen
+
+		// sets the player to the start position
 		this.playerX = startPosition.getX();
 		this.playerY = startPosition.getY();
 
+		// clears all enemies on the board and creates new ones according to the difficulty
 		enemyList.clear();
 		createEnemies(Controller.getDifficulty());
-		
+
 		updateViews();
 	}
-	
-	
+
 	/**
-	 * Gibt den Feldtyp an der angegebenen Position zurück.
+	 * Give back field type of a given coordinate pair
 	 * 
-	 * @param x x-Koordinate
-	 * @param y y-Koordinate
-	 * @return Feldtyp oder null wenn außerhalb der Grenzen
+	 * @param x x position
+	 * @param y y position
+	 * @return returns the field type of the labyrinth at the given coordinates
 	 */
 	public FieldType getFieldType(int x, int y) {
 		if (x < 0 || x >= width || y < 0 || y >= height) {
@@ -303,27 +311,29 @@ private boolean tryMove(Enemy enemy, int dx, int dy, int enemyIndex) {
 		}
 		return labyrinth[x][y];
 	}
-	
+
 	/**
-	 * Prüft ob der Spieler das Ziel erreicht hat.
+	 * Checks wether player reached the goal
 	 * 
-	 * @return true wenn Spieler am Ziel ist
+	 * @return true if player is at the goal
 	 */
 	public boolean isPlayerAtGoal() {
-		return goalPosition != null && 
-			   playerX == goalPosition.getX() && 
-			   playerY == goalPosition.getY();
+		return goalPosition != null &&
+				playerX == goalPosition.getX() &&
+				playerY == goalPosition.getY();
 	}
-	
+
 	/**
-	 * @return Start-Position
+	 * Gets the start position
+	 * @return returns start position
 	 */
 	public Position getStartPosition() {
 		return startPosition;
 	}
-	
+
 	/**
-	 * @return Ziel-Position
+	 * Gets the goal position
+	 * @return returns the goal position
 	 */
 	public Position getGoalPosition() {
 		return goalPosition;
@@ -332,7 +342,10 @@ private boolean tryMove(Enemy enemy, int dx, int dy, int enemyIndex) {
 	///////////////////////////////////////////////////////////////////////////
 	// Wall Management
 
-	public void createWalls() {// TODO
+	/**
+	 * Creates the walls with predetermined positions
+	 */
+	public void createWalls() {
 		for (int x = 0; x < 29; x++) {
 			wallList.add(new Wall(x, 0));
 		}
@@ -450,37 +463,41 @@ private boolean tryMove(Enemy enemy, int dx, int dy, int enemyIndex) {
 		wallList.add(new Wall(2, 8));
 		wallList.add(new Wall(3, 8));
 		wallList.add(new Wall(7, 8));
-		wallList.add(new Wall(8, 8));;
+		wallList.add(new Wall(8, 8));
 		wallList.add(new Wall(13, 8));
 		wallList.add(new Wall(14, 8));
 		wallList.add(new Wall(19, 8));
 		wallList.add(new Wall(20, 8));
 		wallList.add(new Wall(24, 8));
 		wallList.add(new Wall(25, 8));
+
 	}
 
+	/**
+	 * Sorts out the field type for each position in the labyrinth
+	 */
 	public void sortFieldTypes() {
-    for (int x = 0; x < 28; x++) {
-        for (int y = 0; y < 28; y++) {
-            boolean isWall = false;
-            for (int wall = 0; wall < wallList.size(); wall++) {
-                if (wallList.get(wall).getWallX() == x && wallList.get(wall).getWallY() == y) {
-                    labyrinth[x][y] = FieldType.WALL;
-                    isWall = true;
-                    break;
-                }
-            }
+		for (int x = 0; x < 28; x++) {
+			for (int y = 0; y < 28; y++) {
+				boolean isWall = false;
+				for (int wall = 0; wall < wallList.size(); wall++) {
+					if (wallList.get(wall).getWallX() == x && wallList.get(wall).getWallY() == y) {
+						labyrinth[x][y] = FieldType.WALL;
+						isWall = true;
+						break;
+					}
+				}
 
-            if (!isWall) {
-                if (x == startPosition.getX() && y == startPosition.getY()) {
-                    labyrinth[x][y] = FieldType.START;
-                } else if (x == goalPosition.getX() && y == goalPosition.getY()) {
-                    labyrinth[x][y] = FieldType.GOAL;
-                } else {
-                    labyrinth[x][y] = FieldType.PATH;
-                }
-            }
-        }
-    }
+				if (!isWall) {
+					if (x == startPosition.getX() && y == startPosition.getY()) {
+						labyrinth[x][y] = FieldType.START;
+					} else if (x == goalPosition.getX() && y == goalPosition.getY()) {
+						labyrinth[x][y] = FieldType.GOAL;
+					} else {
+						labyrinth[x][y] = FieldType.PATH;
+					}
+				}
+			}
+		}
 	}
 }

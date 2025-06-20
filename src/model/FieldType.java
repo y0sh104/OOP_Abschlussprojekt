@@ -1,22 +1,23 @@
 package model;
 
 /**
- * Jedes Feld ist von einem bestimmten Typ. Ausserdem schreiben wir hier mit, ob man sich "da rein" bewegen kann.
+ * Each Field is of a specific type. Additionally we define which field types are walkable and which are not.
  */
 public enum FieldType {
-    /** Wand - nicht begehbar */
+    /** wall - non walkable */
     WALL,
-    /** Gang - begehbar */
+    /** path - walable */
     PATH,
-    /** Startfeld */
+    /** start location */
     START,
-    /** Zielfeld */
+    /** goal location
+     */
     GOAL;
     
     /**
-     * Prüft ob das Feld begehbar ist.
+     * Check wether field is walkable.
      * 
-     * @return true wenn das Feld begehbar ist, false sonst
+     * @return true if walkable, false if not
      */
     public boolean isWalkable() {
         return this == PATH || this == START || this == GOAL;
