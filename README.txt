@@ -85,9 +85,16 @@ java.version = 21.0.7
 und
 java 1.8.0 openjdk von redhat benutzt.
 
-## Anleitung
 
-### How to use
+## How to use
+When the Labyrinth class (our main class) is run, it opens the game in the graphic view in a new window as well as in the console.^
 
+The goal of the game is to reach the orange goal space without being caught.
 
-### What we used
+Automatically a game on difficulty 1 is started. By pressing the buttons on the bottom border agame of the same difficulty can be started by pressing "New Game" or the difficulty can be adjusted by the difficulty buttons, which also starts a new game.
+
+When a game is running you can move the player character (P or the mouse) by pressing the arrow keys on the keyboard. The player can move one space every turn after which the enemies (^ or the cats) will move themselves and try to close in on the player. Neither of the characters can walk into walls (# or black game board spaces). If the player is caught a game over message will be portryed as well a "C" in console view at the players position.
+
+When the game is over, either bc of game over or success, the arrow inputs are blocked and the buttons must be used to start a new game. The game can be closed by stopping the programm or exiting the window/console view.
+
+## What we used

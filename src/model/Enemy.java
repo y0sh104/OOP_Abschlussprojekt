@@ -47,7 +47,7 @@ public class Enemy {
 	 * 
 	 * @param enemyX the player's x position.
 	 */
-	public void setEnemyX(int enemyX) {
+	void setEnemyX(int enemyX) {
 		enemyX = Math.max(0, enemyX);
 		enemyX = Math.min(world.getWidth() - 1, enemyX);
 		this.enemyX = enemyX;
@@ -58,7 +58,7 @@ public class Enemy {
 	 * 
 	 * @param enemyX the player's x position.
 	 */
-	public void setEnemyY(int enemyY) {
+	void setEnemyY(int enemyY) {
 		enemyY = Math.max(0, enemyY);
 		enemyY = Math.min(world.getHeight() - 1, enemyY);
 		this.enemyY = enemyY;

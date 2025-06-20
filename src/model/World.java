@@ -293,7 +293,11 @@ public class World {
             enemyList.add(new Enemy(12, 17, this));
         } else if (difficulty == 2) {
             enemyList.add(new Enemy(12, 15, this));
-            enemyList.add(new Enemy(17, 18, this));
+            enemyList.add(new Enemy(17, 17, this));
+        } else if (difficulty == 3) {
+            enemyList.add(new Enemy(6, 9, this));
+            enemyList.add(new Enemy(9, 15, this));
+            enemyList.add(new Enemy( 21, 4, this));
         }
         updateViews();
     }
@@ -305,7 +309,7 @@ public class World {
     /**
      * Genrates the labyrinth elements
      */
-    public void generateNewLabyrinth() {
+    void generateNewLabyrinth() {
         // gets start and goal positions
         getStartPosition();
         getGoalPosition();
@@ -354,7 +358,7 @@ public class World {
      * Gets the start position
      * @return Start-Position
      */
-    public Position getStartPosition() {
+    Position getStartPosition() {
         return startPosition;
     }
 
@@ -362,7 +366,7 @@ public class World {
      * Gets the goal position
      * @return Ziel-Position
      */
-    public Position getGoalPosition() {
+    Position getGoalPosition() {
         return goalPosition;
     }
 
@@ -371,7 +375,7 @@ public class World {
     /**
 	 * Creates the walls with predetermined positions
 	 */
-    public void createWalls() {// TODO
+    void createWalls() {// TODO
         for (int x = 0; x < 29; x++) {
             wallList.add(new Wall(x, 0));
         }
@@ -593,7 +597,7 @@ public class World {
     /**
 	 * Sorts out the field type for each position in the labyrinth
 	 */
-    public void sortFieldTypes() {
+    void sortFieldTypes() {
         for (int x = 0; x < 28; x++) {
             for (int y = 0; y < 28; y++) {
                 boolean isWall = false;

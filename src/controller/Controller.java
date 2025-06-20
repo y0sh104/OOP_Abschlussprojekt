@@ -67,7 +67,7 @@ public class Controller extends JFrame implements KeyListener, ActionListener, M
 	 * Sets the games difficulty to the given paramteter and restarts the game.
 	 * @param diff the difficulty to set
 	 */
-	public void setDifficulty(int diff) {
+	void setDifficulty(int diff) {
 		difficulty = diff;
 		resetGame();
 	}

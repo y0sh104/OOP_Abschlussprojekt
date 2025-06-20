@@ -22,7 +22,7 @@ public class Position {
      * Gets the x position.
      * @return returns the x position
      */
-    public int getX() {
+    int getX() {
         return x;
     }
     
@@ -30,7 +30,7 @@ public class Position {
      * Get the y position
      * @return y position
      */
-    public int getY() {
+    int getY() {
         return y;
     }
     
@@ -40,7 +40,7 @@ public class Position {
      * @param direction the direction
      * @return returns new position
      */
-    public Position move(Direction direction) {
+    Position move(Direction direction) {
         return new Position(x + direction.deltaX, y + direction.deltaY);
     }
     
@@ -50,7 +50,7 @@ public class Position {
      * @param other position to be checked against
      * @return returns true if positions are the same
      */
-    public boolean equals(Position other) {
+    boolean equals(Position other) {
         return this.x == other.x && this.y == other.y;
     }
     

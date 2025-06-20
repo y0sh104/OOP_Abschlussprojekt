@@ -19,7 +19,7 @@ public enum FieldType {
      * 
      * @return true if walkable, false if not
      */
-    public boolean isWalkable() {
+    boolean isWalkable() {
         return this == PATH || this == START || this == GOAL;
     }
 }

@@ -70,6 +70,12 @@ public class GraphicView extends JPanel implements View {
 				world.getPlayerX() * fieldSize.width,
 				world.getPlayerY() * fieldSize.height
 		);
+		System.out.println();
+		for (int enemy = 0; enemy < world.getEnemyList().size(); enemy++) {
+			if (world.getPlayerY() == world.getEnemyList().get(enemy).getEnemyY() && world.getPlayerX() == world.getEnemyList().get(enemy).getEnemyX()) {
+				javax.swing.JOptionPane.showMessageDialog(this, "Game over! Youhave been caught!");
+			}
+		}
 		repaint();
 	}
 
