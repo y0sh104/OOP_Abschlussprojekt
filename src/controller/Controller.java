@@ -126,6 +126,7 @@ public class Controller extends JFrame implements KeyListener, ActionListener, M
 		}
 		if (world.isPlayerAtGoal()) {//if player is at goal, output message and restart game
 			javax.swing.JOptionPane.showMessageDialog(this, "Congratulations! You reached the goal!");
+			System.out.println("Congratulations! You reached the goal!");
 			goalReached = true;
 			resetGame();
 		}

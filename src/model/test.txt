@@ -10,6 +10,7 @@ import controller.Controller;
  * accurately reflect the state of the game. Note how this does not know
  * anything about graphics.
  */
+
 public class World {
 
     /**
@@ -33,7 +34,7 @@ public class World {
     private FieldType[][] labyrinth = new FieldType[28][28];
     /** start position in the labyrinth */
     private final Position startPosition = new Position(1, 1);
-    /** goal position in the labyrinth */
+    ** goal position in the labyrinth */
     private final Position goalPosition = new Position(26, 26);
     
     @SuppressWarnings("unused")
