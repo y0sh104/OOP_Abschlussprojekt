@@ -1,17 +1,17 @@
 package model;
 
 /**
- * Das ist eine Position auf dem Spielfeld
+ * Class for positions on the game board.
  */
 public class Position {
     private final int x;
     private final int y;
     
     /**
-     * Erstellt eine neue Position.
+     * Craetes a new position with the x and y parameters.
      * 
-     * @param x x-Koordinate
-     * @param y y-Koordinate
+     * @param x x position
+     * @param y y position
      */
     public Position(int x, int y) {
         this.x = x;
@@ -19,34 +19,36 @@ public class Position {
     }
     
     /**
-     * @return x-Koordinate
+     * Gets the x position.
+     * @return returns the x position
      */
     public int getX() {
         return x;
     }
     
     /**
-     * @return y-Koordinate
+     * Get the y position
+     * @return y position
      */
     public int getY() {
         return y;
     }
     
     /**
-     * Erstellt eine neue Position basierend auf einer Richtung.
+     * Creates a new position based on a direction parameter.
      * 
-     * @param direction die Richtung der Bewegung
-     * @return neue Position nach der Bewegung
+     * @param direction the direction
+     * @return returns new position
      */
     public Position move(Direction direction) {
         return new Position(x + direction.deltaX, y + direction.deltaY);
     }
     
     /**
-     * Prüft ob diese Position gleich einer anderen ist.
+     * Checks wether the current position is the same as an other, given by a paramterter.
      * 
-     * @param other die andere Position
-     * @return true wenn Positionen gleich sind
+     * @param other position to be checked against
+     * @return returns true if positions are the same
      */
     public boolean equals(Position other) {
         return this.x == other.x && this.y == other.y;

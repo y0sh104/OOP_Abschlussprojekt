@@ -45,22 +45,25 @@ public class Labyrinth {
                 controller.setFocusable(true);
                 controller.requestFocusInWindow();
 
-
+                //creates a button to start a new game in current difficulty
                 JButton regenerateButton = new JButton("New Game!");
                 regenerateButton.addActionListener(e -> {
                     controller.resetGame();
                 });
 
+                //creates a button to start a new game in difficulty 1
                 JButton diff_1 = new JButton("Difficulty 1");
                 diff_1.addActionListener(e -> {
                     controller.setDifficulty(1);
                 });
 
+                //creates a button to start a new game in difficulty 2
                 JButton diff_2 = new JButton("Difficulty 2");
                 diff_2.addActionListener(e -> {
                     controller.setDifficulty(2);
                 });
 
+                //creates a button to start a new game in difficulty 3
                 JButton diff_3 = new JButton("Difficulty 3");
                 diff_3.addActionListener(e -> {
                     controller.setDifficulty(3);

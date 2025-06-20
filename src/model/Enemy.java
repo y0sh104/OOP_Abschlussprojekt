@@ -1,13 +1,23 @@
 package model;
 
+/**
+ * Class for the enemies that chase the player.
+ */
 public class Enemy {
     /**The enemies' x position in the world */
     private int enemyX;
     /**The enemies' y position in the world */
     private int enemyY;
 
+	/** The world in which the enemies are to be created */
     private World world;
 
+	/**
+	 * Creates an enemey with the given parameters of enemyY, enemyY and the world.
+	 * @param enemyX the x position of the enemy to be created.
+	 * @param enemyY the y position of the enemy to be created
+	 * @param world the world in which the enemy is to be created
+	 */
     public Enemy(int enemyX, int enemyY, World world) {
         this.enemyX = enemyX;
         this.enemyY = enemyY;

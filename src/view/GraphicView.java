@@ -15,20 +15,33 @@ import model.World;
  * A graphical view of the world.
  */
 public class GraphicView extends JPanel implements View {
-
+	/**the witdh of the view */
 	private final int WIDTH;
+	/**the heigth of the view */
 	private final int HEIGHT;
 
+	/**the dimensions of the window */
 	private final Dimension fieldSize;
 	@SuppressWarnings("unused")
+	/**rectangle background */
 	private final Rectangle bg;
+	/**player rectangle that is used to track movements */
 	private final Rectangle player = new Rectangle(1, 1);
 
+	/**image that is portrayed onto the player rectangle */
 	private BufferedImage playerImage;
+	/**imgae portryed onto enemies */
 	private BufferedImage enemyImage;
 
+	/**variable to ave current world state */
 	private World currentWorld;
 
+	/**
+	 * Creates new graphical view wiht given paramters of the dimensions.
+	 * @param width width of the view
+	 * @param height height of the view
+	 * @param fieldSize dimension of the window
+	*/
 	public GraphicView(int width, int height, Dimension fieldSize) {
 		this.WIDTH = width;
 		this.HEIGHT = height;
@@ -46,6 +59,10 @@ public class GraphicView extends JPanel implements View {
 	}
 
 	@Override
+	/**
+	 * Updates the view
+	 * @param world gives the information about the world that need to be updated
+	 */
 	public void update(World world) {
 		this.currentWorld = world;
 		player.setSize(fieldSize);
@@ -57,11 +74,19 @@ public class GraphicView extends JPanel implements View {
 	}
 
 	@Override
+	/**
+	 * Gets the size the dimension should be in
+	 * @ return returns a new dimension with preferred height and width
+	 */
 	public Dimension getPreferredSize() {
 		return new Dimension(WIDTH, HEIGHT);
 	}
 
 	@Override
+	/**
+	 * Paints in everything using java.awt.Graphics
+	 * @param the base for all the graphic content
+	 */
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
@@ -99,7 +124,11 @@ public class GraphicView extends JPanel implements View {
 
 	}
 
-
+	/**
+	 * draws everything in the graphics view using the information about world and graphicla elements
+	 * @param g information about graphical elements
+	 * @param world information about world
+	 */
 	private void drawLabyrinth(Graphics g, World world) {
 		for (int y = 0; y < world.getHeight(); y++) {
 			for (int x = 0; x < world.getWidth(); x++) {
@@ -127,6 +156,10 @@ public class GraphicView extends JPanel implements View {
 		}
 	}
 
+	/**
+	 * Draws the fallback version of the player using graphics.
+	 * @param g information about graphical elements
+	 */
 	private void drawPlayerFallback(Graphics g) {
 		g.setColor(Color.BLUE);
 		int margin = 3;
