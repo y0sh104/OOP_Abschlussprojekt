@@ -98,3 +98,24 @@ When a game is running you can move the player character (P or the mouse) by pre
 When the game is over, either bc of game over or success, the arrow inputs are blocked and the buttons must be used to start a new game. The game can be closed by stopping the programm or exiting the window/console view.
 
 ## What we used
+
+
+Grafische Umsetzung:
+Um Buttons darzustellen, die reaktiv auf Inputs des Users reagieren, nutzen wir das Modul javax.swing.JButton.
+Damit wir diese Buttons anschließend passend in unser GUI einfügen können, nutzen wir ebenfalls javax.swing.JPanel.
+
+Mit diesen beiden Module gelingt es, die Buttons für die Spielsteuerung in unserem GUI anzuzeigen und mit ActionListeners eine Interaktion
+mit dem Spiel zu ermöglichen.
+
+Damit die Charaktere im Spiel nicht nur geometrische Figuren sind, haben wir uns dazu entschieden, diese mit PNG-Bildern zu ersetzen.
+Dafür nutzen wir die Module java.awt.image.BufferedImage und imageio.ImageIO.
+Damit wir die auf die PNG-Dateien zugreifen können, nutzen wir ebenfalls java.io.InputStream.
+
+Somit ist sichergestellt, dass die PNG-Bilder die geometrischen Figuren ersetzen, aber dennoch derselben Spiellogik folgen.
+
+Weitere grafische Entscheidungen:
+Das Spielfeld wird als 2D-Array dargestellt, um gezielt mit Koordinaten jedes Feld auszuwählen.
+Jedes Feld hat einen sogenannten FieldType, um die Funktion eindeutig zuordnen zu können.
+Das Start- sowie das Zielfeld sind farblich hervorgehoben und immer an derselben Stelle.
+Um ein Ausbrechen an den Rändern zu verhindern, haben wir um das gesamte Spielfeld eine wall gezogen, damit alle begehbaren Felder
+eingeschlossen sind.
