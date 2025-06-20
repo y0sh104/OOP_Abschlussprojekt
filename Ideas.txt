@@ -1,31 +1,4 @@
-Enemies in a list
-for e in enemylist
-    if coordinates enemy == coordinates player
-        lose & home screen!?
+fix goal
 
+fix enemy movemennt (can walk into other enemies; dont move when under u)
 
-How can we visualise enemies/player? is it possible to use sprites or only shapes?
-look at java.awt.Graphics documentation what other things can be drawn/created (then implement in consoleview.paint)
-
-
-how can we build walls and prevent collision?
-i think we should have a static map and not a randomly generated, no need to overdo it.
-walls as lines in console view and as rectangles in graphicsview?! i think we should resize the game board for sure @Labyrinth.main.new Runnable.run heigth / width, 10x10 is small and we can aslo scale up the window size of the graphics view @Labyrinth....run fieldDimension in the fieldDimensions constructor
-
-
-
-
-
-
-
-
-
-TODO wie verhindern ,ehrere gegner auf einem feld
-rn enemies move too much?! try moving diagonal!!!
-why do we need break in switch case fuction?
-
-
-Make sure ot understand the modelll
-slides/vdeo
-everything in the right place
-finish up movement restrictions
